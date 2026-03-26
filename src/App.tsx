@@ -35,7 +35,7 @@ const CONTINENTS = [
   },
   { 
     id: 'semis', 
-    name: 'Semiconductor Archipelago', 
+    name: 'The Silicon Spires', 
     lat: -30, lng: 105, 
     color: '#eab308', 
     description: 'The volcanic islands of pure compute and lithography.',
@@ -43,7 +43,7 @@ const CONTINENTS = [
   },
   { 
     id: 'cyber', 
-    name: 'Cybersecurity Bastion', 
+    name: 'The Citadel of Crypt', 
     lat: 60, lng: 5, 
     color: '#ef4444', 
     description: 'The fortified mountains of digital defense and threat intelligence.',
@@ -55,6 +55,54 @@ const CONTINENTS = [
     lat: 5, lng: -85, 
     color: '#10b981', 
     description: 'The high-speed canyons of digital value exchange.',
+    size: 1.2
+  },
+  { 
+    id: 'robotics', 
+    name: 'The Automaton Frontier', 
+    lat: 35, lng: 135, 
+    color: '#f97316', 
+    description: 'Where AI finally grows a body. Humanoid Steppes and Logistics Basins.',
+    size: 1.2
+  },
+  { 
+    id: 'biotech', 
+    name: 'The Genomic Archipelago', 
+    lat: 10, lng: 10, 
+    color: '#ec4899', 
+    description: 'The convergence of AI and biology. CRISPR Cove and Longevity Peaks.',
+    size: 1.2
+  },
+  { 
+    id: 'energy', 
+    name: 'The Solar Plains', 
+    lat: -20, lng: 25, 
+    color: '#facc15', 
+    description: 'Powering the Cloud Tundra. Sodium-Ion Flats and SMR Ridge.',
+    size: 1.2
+  },
+  { 
+    id: 'quantum', 
+    name: 'The Qubit Reef', 
+    lat: 55, lng: -110, 
+    color: '#06b6d4', 
+    description: 'Harnessing subatomic behavior. Entanglement Depths and Post-Quantum Fortresses.',
+    size: 1.2
+  },
+  { 
+    id: 'spatial', 
+    name: 'The Synthetic Valleys', 
+    lat: 37, lng: -122, 
+    color: '#8b5cf6', 
+    description: 'Spatial Intelligence and Digital Twins. Holographic Glades.',
+    size: 1.2
+  },
+  { 
+    id: 'space', 
+    name: 'The Celestial Harbor', 
+    lat: -60, lng: -60, 
+    color: '#94a3b8', 
+    description: 'The commercial hub of the final frontier. Orbit Basin and Lunar Outposts.',
     size: 1.2
   }
 ];
@@ -87,7 +135,33 @@ const TECH_HUBS = [
   // FinTech Nexus (Finance)
   { id: 'stripe', name: 'Stripe', lat: 10, lng: -80, color: '#10b981', value: '65B', type: 'Finance', control: 88, logo: 'https://www.google.com/s2/favicons?domain=stripe.com&sz=128', description: 'Financial infrastructure for the internet.' },
   { id: 'adyen', name: 'Adyen', lat: 0, lng: -90, color: '#10b981', value: '45B', type: 'Finance', control: 75, logo: 'https://www.google.com/s2/favicons?domain=adyen.com&sz=128', description: 'Modern payment platform for global business.' },
-  { id: 'coinbase', name: 'Coinbase', lat: 15, lng: -75, color: '#10b981', value: '50B', type: 'Finance', control: 60, logo: 'https://www.google.com/s2/favicons?domain=coinbase.com&sz=128', description: 'Gateway for digital asset exchange.' }
+  { id: 'coinbase', name: 'Coinbase', lat: 15, lng: -75, color: '#10b981', value: '50B', type: 'Finance', control: 60, logo: 'https://www.google.com/s2/favicons?domain=coinbase.com&sz=128', description: 'Gateway for digital asset exchange.' },
+
+  // Automaton Frontier (Robotics)
+  { id: 'tesla_bot', name: 'Tesla Optimus', lat: 34, lng: 138, color: '#f97316', value: 'N/A', type: 'Robotics', control: 70, logo: 'https://www.google.com/s2/favicons?domain=tesla.com&sz=128', description: 'Scaling general-purpose humanoid robots.' },
+  { id: 'figure', name: 'Figure', lat: 38, lng: 122, color: '#f97316', value: '2.6B', type: 'Robotics', control: 45, logo: 'https://www.google.com/s2/favicons?domain=figure.ai&sz=128', description: 'AI-first humanoid robotics company.' },
+  { id: 'boston_dynamics', name: 'Boston Dynamics', lat: 42, lng: -71, color: '#f97316', value: '1.1B', type: 'Robotics', control: 80, logo: 'https://www.google.com/s2/favicons?domain=bostondynamics.com&sz=128', description: 'Pioneers in advanced mobile robotics.' },
+
+  // Genomic Archipelago (Biotech)
+  { id: 'moderna', name: 'Moderna', lat: 42, lng: -71, color: '#ec4899', value: '40B', type: 'Biotech', control: 65, logo: 'https://www.google.com/s2/favicons?domain=modernatx.com&sz=128', description: 'mRNA technology and AI-driven drug discovery.' },
+  { id: 'neuralink', name: 'Neuralink', lat: 37, lng: -121, color: '#ec4899', value: '5B', type: 'BCI', control: 90, logo: 'https://www.google.com/s2/favicons?domain=neuralink.com&sz=128', description: 'Developing ultra-high bandwidth brain-machine interfaces.' },
+  { id: 'ginkgo', name: 'Ginkgo Bioworks', lat: 42, lng: -71, color: '#ec4899', value: '2B', type: 'Biotech', control: 50, logo: 'https://www.google.com/s2/favicons?domain=ginkgobioworks.com&sz=128', description: 'The organism company, programming cells like computers.' },
+
+  // Solar Plains (Energy)
+  { id: 'helion', name: 'Helion Energy', lat: 47, lng: -122, color: '#facc15', value: '3B', type: 'Energy', control: 30, logo: 'https://www.google.com/s2/favicons?domain=helionenergy.com&sz=128', description: 'Pursuing commercial fusion power.' },
+  { id: 'terrapower', name: 'TerraPower', lat: 47, lng: -122, color: '#facc15', value: 'N/A', type: 'Energy', control: 40, logo: 'https://www.google.com/s2/favicons?domain=terrapower.com&sz=128', description: 'Small modular reactors for carbon-free nuclear power.' },
+
+  // Qubit Reef (Quantum)
+  { id: 'ibm_quantum', name: 'IBM Quantum', lat: 41, lng: -73, color: '#06b6d4', value: 'N/A', type: 'Quantum', control: 75, logo: 'https://www.google.com/s2/favicons?domain=ibm.com&sz=128', description: 'Leading the era of quantum utility.' },
+  { id: 'google_quantum', name: 'Google Quantum', lat: 34, lng: -118, color: '#06b6d4', value: 'N/A', type: 'Quantum', control: 80, logo: 'https://www.google.com/s2/favicons?domain=quantumai.google&sz=128', description: 'Building a useful error-corrected quantum computer.' },
+
+  // Synthetic Valleys (Spatial)
+  { id: 'apple_vision', name: 'Apple Vision', lat: 37, lng: -122, color: '#8b5cf6', value: 'N/A', type: 'Spatial', control: 85, logo: 'https://www.google.com/s2/favicons?domain=apple.com&sz=128', description: 'Defining the spatial computing paradigm.' },
+  { id: 'meta_reality', name: 'Meta Reality', lat: 37, lng: -122, color: '#8b5cf6', value: 'N/A', type: 'Spatial', control: 70, logo: 'https://www.google.com/s2/favicons?domain=meta.com&sz=128', description: 'Building the future of human connection in the metaverse.' },
+
+  // Celestial Harbor (Space)
+  { id: 'spacex', name: 'SpaceX', lat: 33, lng: -118, color: '#94a3b8', value: '180B', type: 'Space', control: 95, logo: 'https://www.google.com/s2/favicons?domain=spacex.com&sz=128', description: 'Revolutionizing space transportation and satellite internet.' },
+  { id: 'blue_origin', name: 'Blue Origin', lat: 47, lng: -122, color: '#94a3b8', value: 'N/A', type: 'Space', control: 40, logo: 'https://www.google.com/s2/favicons?domain=blueorigin.com&sz=128', description: 'Building a road to space for the benefit of Earth.' }
 ];
 
 const ARCS = [
@@ -397,31 +471,33 @@ export default function App() {
 
 
         {/* Legend / HUD */}
-        <div className="absolute bottom-8 right-8 p-6 rounded-3xl bg-black/40 backdrop-blur-md border border-white/5 space-y-4 pointer-events-auto shadow-2xl">
-          <div className="text-[9px] font-mono uppercase tracking-widest text-white/20">
+        <div className="absolute bottom-8 right-8 p-6 rounded-3xl bg-black/40 backdrop-blur-md border border-white/5 space-y-4 pointer-events-auto shadow-2xl max-h-[40vh] overflow-y-auto custom-scrollbar">
+          <div className="text-[9px] font-mono uppercase tracking-widest text-white/20 sticky top-0 bg-black/40 py-1">
             Territory Legend
           </div>
-          <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#a855f7] shadow-[0_0_8px_rgba(168,85,247,0.3)]" />
-              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">LLM Highlands</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#3b82f6] shadow-[0_0_8px_rgba(59,130,246,0.3)]" />
-              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">Cloud Tundra</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#eab308] shadow-[0_0_8px_rgba(234,179,8,0.3)]" />
-              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">Semiconductors</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#ef4444] shadow-[0_0_8px_rgba(239,68,68,0.3)]" />
-              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">Cybersecurity</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_rgba(16,185,129,0.3)]" />
-              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">FinTech Nexus</span>
-            </div>
+          <div className="space-y-1">
+            {CONTINENTS.map(region => (
+              <button 
+                key={region.id}
+                onClick={() => {
+                  if (globeRef.current) {
+                    globeRef.current.pointOfView({ lat: region.lat, lng: region.lng, altitude: 2 }, 2000);
+                  }
+                }}
+                className="flex items-center gap-3 w-full hover:bg-white/10 p-2 rounded-xl transition-all group text-left"
+              >
+                <div 
+                  className="w-2 h-2 rounded-full transition-transform group-hover:scale-150" 
+                  style={{ 
+                    backgroundColor: region.color, 
+                    boxShadow: `0 0 12px ${region.color}` 
+                  }} 
+                />
+                <span className="text-[10px] font-mono text-white/50 uppercase tracking-wider group-hover:text-white group-hover:translate-x-1 transition-all">
+                  {region.name}
+                </span>
+              </button>
+            ))}
           </div>
         </div>
       </div>
