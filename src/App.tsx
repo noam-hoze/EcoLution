@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Zap, Shield, Cpu, Cloud, Sparkles, Activity, 
   Layers, Globe as GlobeIcon, Info, X, Terminal,
-  Database, Network, Server, Radio, Box
+  Database, Network, Server, Radio, Box, Play, Pause
 } from 'lucide-react';
 
 // --- Data Definitions ---
@@ -42,72 +42,30 @@ const CONTINENTS = [
 ];
 
 const TECH_HUBS = [
-  { 
-    id: 'openai', 
-    name: 'OpenAI', 
-    lat: 25, lng: 45, 
-    color: '#a855f7', 
-    value: '80B',
-    type: 'Intelligence',
-    icon: <Sparkles size={16} />
-  },
-  { 
-    id: 'aws', 
-    name: 'AWS', 
-    lat: -15, lng: -35, 
-    color: '#3b82f6', 
-    value: '1.2T',
-    type: 'Infrastructure',
-    icon: <Cloud size={16} />
-  },
-  { 
-    id: 'nvidia', 
-    name: 'Nvidia', 
-    lat: -5, lng: 105, 
-    color: '#eab308', 
-    value: '2.1T',
-    type: 'Compute',
-    icon: <Cpu size={16} />
-  },
-  { 
-    id: 'tsmc', 
-    name: 'TSMC', 
-    lat: -12, lng: 115, 
-    color: '#eab308', 
-    value: '600B',
-    type: 'Foundry',
-    icon: <Database size={16} />
-  },
-  { 
-    id: 'azure', 
-    name: 'Azure', 
-    lat: -10, lng: -45, 
-    color: '#3b82f6', 
-    value: '900B',
-    type: 'Infrastructure',
-    icon: <Server size={16} />
-  }
+  // LLM Highlands (Intelligence)
+  { id: 'openai', name: 'OpenAI', lat: 28, lng: 42, color: '#a855f7', value: '80B', type: 'Intelligence', control: 85, logo: 'https://www.google.com/s2/favicons?domain=openai.com&sz=128', description: 'Leader in generative pre-trained transformers.' },
+  { id: 'anthropic', name: 'Anthropic', lat: 22, lng: 48, color: '#a855f7', value: '18B', type: 'Intelligence', control: 40, logo: 'https://www.google.com/s2/favicons?domain=anthropic.com&sz=128', description: 'AI safety and research company.' },
+  { id: 'deepmind', name: 'DeepMind', lat: 26, lng: 38, color: '#a855f7', value: 'N/A', type: 'Intelligence', control: 75, logo: 'https://www.google.com/s2/favicons?domain=deepmind.com&sz=128', description: 'Google\'s premier AI research division.' },
+  { id: 'mistral', name: 'Mistral', lat: 30, lng: 45, color: '#a855f7', value: '2B', type: 'Intelligence', control: 20, logo: 'https://www.google.com/s2/favicons?domain=mistral.ai&sz=128', description: 'European champion of open-weight models.' },
+
+  // Cloud Tundra (Infrastructure)
+  { id: 'aws', name: 'AWS', lat: -12, lng: -32, color: '#3b82f6', value: '1.2T', type: 'Infrastructure', control: 92, logo: 'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128', description: 'The backbone of the modern internet.' },
+  { id: 'azure', name: 'Azure', lat: -18, lng: -38, color: '#3b82f6', value: '900B', type: 'Infrastructure', control: 88, logo: 'https://www.google.com/s2/favicons?domain=azure.microsoft.com&sz=128', description: 'Enterprise-grade cloud solutions.' },
+  { id: 'gcp', name: 'GCP', lat: -15, lng: -42, color: '#3b82f6', value: '500B', type: 'Infrastructure', control: 65, logo: 'https://www.google.com/s2/favicons?domain=cloud.google.com&sz=128', description: 'Data-centric cloud infrastructure.' },
+  { id: 'oracle', name: 'Oracle', lat: -20, lng: -30, color: '#3b82f6', value: '300B', type: 'Infrastructure', control: 45, logo: 'https://www.google.com/s2/favicons?domain=oracle.com&sz=128', description: 'Legacy database and cloud services.' },
+
+  // Semiconductor Archipelago (Compute)
+  { id: 'nvidia', name: 'Nvidia', lat: -2, lng: 102, color: '#eab308', value: '2.1T', type: 'Compute', control: 95, logo: 'https://www.google.com/s2/favicons?domain=nvidia.com&sz=128', description: 'The forge of the AI revolution.' },
+  { id: 'tsmc', name: 'TSMC', lat: -8, lng: 108, color: '#eab308', value: '600B', type: 'Foundry', control: 98, logo: 'https://www.google.com/s2/favicons?domain=tsmc.com&sz=128', description: 'The world\'s most advanced silicon foundry.' },
+  { id: 'asml', name: 'ASML', lat: -5, lng: 98, color: '#eab308', value: '350B', type: 'Lithography', control: 90, logo: 'https://www.google.com/s2/favicons?domain=asml.com&sz=128', description: 'Sole provider of EUV lithography machines.' },
+  { id: 'amd', name: 'AMD', lat: -12, lng: 105, color: '#eab308', value: '280B', type: 'Compute', control: 55, logo: 'https://www.google.com/s2/favicons?domain=amd.com&sz=128', description: 'High-performance computing and graphics.' },
+  { id: 'intel', name: 'Intel', lat: 2, lng: 110, color: '#eab308', value: '180B', type: 'Compute', control: 40, logo: 'https://www.google.com/s2/favicons?domain=intel.com&sz=128', description: 'The legacy titan of x86 architecture.' }
 ];
 
 const ARCS = [
-  {
-    startLat: 25, startLng: 45,
-    endLat: -5, endLng: 105,
-    color: ['#a855f7', '#eab308'],
-    label: 'Model Training Pipeline'
-  },
-  {
-    startLat: -15, startLng: -35,
-    endLat: 25, endLng: 45,
-    color: ['#3b82f6', '#a855f7'],
-    label: 'Inference Request'
-  },
-  {
-    startLat: -5, startLng: 105,
-    endLat: -15, endLng: -35,
-    color: ['#eab308', '#3b82f6'],
-    label: 'Hardware Provisioning'
-  }
+  { startLat: 28, startLng: 42, endLat: -2, endLng: 102, color: ['#a855f7', '#eab308'], label: 'H100 Allocation' },
+  { startLat: -12, startLng: -32, endLat: 28, endLng: 42, color: ['#3b82f6', '#a855f7'], label: 'Training Compute' },
+  { startLat: -8, startLng: 108, endLat: -12, endLng: -32, color: ['#eab308', '#3b82f6'], label: 'Server Deployment' }
 ];
 
 // Background noise data for hexbins
@@ -137,9 +95,16 @@ const Sidebar: React.FC<{ selected: any; onClose: () => void }> = ({ selected, o
           Node Analysis
         </div>
       </div>
-      <h2 className="text-5xl font-serif italic text-white leading-tight tracking-tighter">
-        {selected.name}
-      </h2>
+      <div className="flex items-center gap-6">
+        {selected.logo && (
+          <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 p-4 backdrop-blur-sm flex items-center justify-center">
+            <img src={selected.logo} alt={selected.name} className="w-full h-full object-contain filter brightness-110" />
+          </div>
+        )}
+        <h2 className="text-5xl font-serif italic text-white leading-tight tracking-tighter">
+          {selected.name}
+        </h2>
+      </div>
       <div className="flex items-center gap-2 text-xs text-white/40 font-mono uppercase tracking-widest">
         {selected.icon && <span className="text-blue-400">{selected.icon}</span>}
         {selected.type || 'Territory'}
@@ -149,13 +114,31 @@ const Sidebar: React.FC<{ selected: any; onClose: () => void }> = ({ selected, o
     <div className="space-y-8">
       <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 space-y-4 group hover:bg-white/10 transition-all">
         <div className="text-[10px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-2">
-          <Activity size={12} /> Market Dominance
+          <Activity size={12} /> Territory Control
+        </div>
+        <div className="flex items-baseline gap-2">
+          <span className="text-4xl font-serif italic text-blue-400">
+            {selected.control || '0'}%
+          </span>
+          <span className="text-[10px] text-blue-500/50 font-mono">Dominance</span>
+        </div>
+        <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+          <motion.div 
+            initial={{ width: 0 }}
+            animate={{ width: `${selected.control || 0}%` }}
+            className="h-full bg-blue-500"
+          />
+        </div>
+      </div>
+
+      <div className="p-8 rounded-[2rem] bg-white/5 border border-white/10 space-y-4 group hover:bg-white/10 transition-all">
+        <div className="text-[10px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-2">
+          <Zap size={12} /> Valuation
         </div>
         <div className="flex items-baseline gap-2">
           <span className="text-4xl font-serif italic text-green-400">
             ${selected.value || 'N/A'}
           </span>
-          {selected.value && <span className="text-[10px] text-green-500/50 font-mono">+1.2%</span>}
         </div>
       </div>
 
@@ -201,6 +184,7 @@ export default function App() {
   const globeRef = useRef<any>(null);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [showInfo, setShowInfo] = useState(true);
+  const [isAutoRotate, setIsAutoRotate] = useState(true);
 
   // Custom globe texture placeholder (dark grid)
   const globeImageUrl = "https://unpkg.com/three-globe/example/img/earth-night.jpg";
@@ -211,11 +195,15 @@ export default function App() {
     if (globeRef.current) {
       // Configure controls
       const controls = globeRef.current.controls();
-      controls.autoRotate = true;
+      controls.autoRotate = isAutoRotate;
       controls.autoRotateSpeed = 0.3;
       controls.enableDamping = true;
       controls.dampingFactor = 0.05;
-      
+    }
+  }, [isAutoRotate]);
+
+  useEffect(() => {
+    if (globeRef.current) {
       // Set initial camera position
       globeRef.current.pointOfView({ lat: 20, lng: 40, altitude: 2.5 }, 4000);
     }
@@ -252,9 +240,35 @@ export default function App() {
           pointLng={d => (d as any).lng}
           pointColor={d => (d as any).color}
           pointRadius={1.2}
-          pointsMerge={true}
+          pointsMerge={false}
           pointAltitude={0.02}
           onPointClick={setSelectedNode}
+
+          // HTML Elements (Company Markers)
+          htmlElementsData={TECH_HUBS}
+          htmlElement={(d: any) => {
+            const el = document.createElement('div');
+            el.innerHTML = `
+              <div class="group cursor-pointer flex flex-col items-center">
+                <div class="relative w-10 h-10 flex items-center justify-center">
+                  <!-- Outer Glow Ring -->
+                  <div class="absolute inset-0 rounded-full bg-white/10 blur-sm group-hover:bg-white/20 transition-all duration-300"></div>
+                  <!-- Border Ring -->
+                  <div class="absolute inset-0 rounded-full border border-white/20 group-hover:border-white/40 transition-all duration-300"></div>
+                  <!-- Logo Container -->
+                  <div class="relative w-8 h-8 rounded-full overflow-hidden bg-black/50 border border-white/10 flex items-center justify-center p-1.5 backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
+                    <img src="${d.logo}" alt="${d.name}" class="w-full h-full object-contain filter brightness-110" />
+                  </div>
+                </div>
+                <!-- Label -->
+                <div class="mt-2 px-3 py-1 rounded-full bg-black/80 border border-white/10 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                  <div class="text-[10px] font-mono text-white whitespace-nowrap uppercase tracking-widest font-bold">${d.name}</div>
+                </div>
+              </div>
+            `;
+            el.onclick = () => setSelectedNode(d);
+            return el;
+          }}
 
           // Arcs (Supply Chain)
           arcsData={ARCS}
@@ -307,6 +321,17 @@ export default function App() {
           </div>
 
           <div className="flex gap-4">
+            <button 
+              onClick={() => setIsAutoRotate(!isAutoRotate)}
+              className={`p-4 rounded-full border transition-all shadow-xl flex items-center justify-center ${
+                isAutoRotate 
+                  ? 'bg-blue-500/20 border-blue-500/50 text-blue-400' 
+                  : 'bg-white/5 border-white/10 text-white/60 hover:text-white hover:bg-white/10'
+              }`}
+              title={isAutoRotate ? "Pause Rotation" : "Start Rotation"}
+            >
+              {isAutoRotate ? <Pause size={24} /> : <Play size={24} />}
+            </button>
             <button 
               onClick={() => setShowInfo(true)}
               className="p-4 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all shadow-xl"
