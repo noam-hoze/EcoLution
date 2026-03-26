@@ -81,10 +81,10 @@ const HEX_DATA = [...Array(1000).keys()].map(() => ({
 
 const Sidebar: React.FC<{ selected: any; onClose: () => void }> = ({ selected, onClose }) => (
   <motion.div
-    initial={{ x: 400, opacity: 0 }}
+    initial={{ x: 480, opacity: 0 }}
     animate={{ x: 0, opacity: 1 }}
-    exit={{ x: 400, opacity: 0 }}
-    className="fixed top-0 right-0 bottom-0 w-96 bg-black/90 backdrop-blur-3xl border-l border-white/10 p-10 z-50 flex flex-col gap-10 shadow-[0_0_50px_rgba(0,0,0,0.5)]"
+    exit={{ x: 480, opacity: 0 }}
+    className="fixed top-0 right-0 bottom-0 w-[480px] bg-black/40 backdrop-blur-xl border-l border-white/5 p-12 z-50 flex flex-col gap-10 shadow-2xl"
   >
     <button onClick={onClose} className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors">
       <X size={24} />
@@ -185,10 +185,24 @@ const Sidebar: React.FC<{ selected: any; onClose: () => void }> = ({ selected, o
 export default function App() {
   const globeRef = useRef<any>(null);
   const [selectedNode, setSelectedNode] = useState<any>(null);
-  const [showInfo, setShowInfo] = useState(true);
   const [isAutoRotate, setIsAutoRotate] = useState(false);
   const [showSurvivalEngine, setShowSurvivalEngine] = useState(false);
   const [hubs, setHubs] = useState(TECH_HUBS);
+  const [dimensions, setDimensions] = useState({ 
+    width: window.innerWidth, 
+    height: window.innerHeight 
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleCompanyCreated = (company: any) => {
     setHubs(prev => [...prev, company]);
@@ -216,8 +230,8 @@ export default function App() {
 
   useEffect(() => {
     if (globeRef.current) {
-      // Set initial camera position
-      globeRef.current.pointOfView({ lat: 20, lng: 40, altitude: 2.5 }, 4000);
+      // Set initial camera position - centered on equator
+      globeRef.current.pointOfView({ lat: 0, lng: 0, altitude: 2.5 }, 4000);
     }
   }, []);
 
@@ -227,6 +241,8 @@ export default function App() {
       <div className="absolute inset-0 z-0">
         <Globe
           ref={globeRef}
+          width={dimensions.width}
+          height={dimensions.height}
           globeImageUrl={globeImageUrl}
           bumpImageUrl={bumpImageUrl}
           backgroundImageUrl={backgroundImageUrl}
@@ -333,88 +349,71 @@ export default function App() {
 
       {/* UI Overlays */}
       <div className="absolute inset-0 pointer-events-none z-10">
-        {/* Header */}
-        <header className="p-10 flex justify-between items-start pointer-events-auto">
-          <div className="space-y-3">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-[1px] bg-blue-500" />
-              <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-blue-400 font-bold">
-                Digital Ecosystem v3.0
+        {/* Header / HUD */}
+        <header className="absolute top-0 left-0 right-0 p-8 flex justify-between items-start pointer-events-auto">
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-[1px] bg-blue-500/50" />
+              <div className="text-[9px] font-mono uppercase tracking-[0.3em] text-blue-400/80 font-bold">
+                System Active // v3.0
               </div>
             </div>
-            <h1 className="text-6xl font-serif italic text-white tracking-tighter leading-none">
+            <h1 className="text-4xl font-serif italic text-white tracking-tighter leading-none opacity-90">
               The Global <span className="text-blue-500">Stack</span>
             </h1>
           </div>
 
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             <button 
               onClick={() => setShowSurvivalEngine(true)}
-              className="px-6 py-4 rounded-full bg-purple-600/20 border border-purple-500/50 text-purple-400 hover:bg-purple-600/30 transition-all shadow-xl flex items-center gap-3 group"
+              className="px-5 py-3 rounded-xl bg-purple-600/10 border border-purple-500/30 text-purple-400 hover:bg-purple-600/20 transition-all shadow-2xl flex items-center gap-2 group backdrop-blur-md"
               title="Survival Engine"
             >
-              <Target size={20} className="group-hover:rotate-12 transition-transform" />
-              <span className="text-[10px] font-mono uppercase tracking-[0.2em] font-bold">Initiate Survival Engine</span>
-            </button>
-            <button 
-              onClick={() => setIsAutoRotate(!isAutoRotate)}
-              className={`p-4 rounded-full border transition-all shadow-xl flex items-center justify-center ${
-                isAutoRotate 
-                  ? 'bg-blue-500/20 border-blue-500/50 text-blue-400' 
-                  : 'bg-white/5 border-white/10 text-white/60 hover:text-white hover:bg-white/10'
-              }`}
-              title={isAutoRotate ? "Pause Rotation" : "Start Rotation"}
-            >
-              {isAutoRotate ? <Pause size={24} /> : <Play size={24} />}
-            </button>
-            <button 
-              onClick={() => setShowInfo(true)}
-              className="p-4 rounded-full bg-white/5 border border-white/10 text-white/60 hover:text-white hover:bg-white/10 transition-all shadow-xl"
-            >
-              <Info size={24} />
+              <Target size={16} className="group-hover:rotate-12 transition-transform" />
+              <span className="text-[9px] font-mono uppercase tracking-[0.15em] font-bold">Start</span>
             </button>
           </div>
         </header>
 
-        {/* Bottom Stats */}
-        <div className="absolute bottom-10 left-10 flex gap-16 pointer-events-auto">
-          <div className="space-y-2">
-            <div className="text-[10px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-2">
-              <Activity size={12} className="text-green-500" /> Network Load
+        {/* Bottom Stats / HUD */}
+        <div className="absolute bottom-8 left-8 flex gap-12 pointer-events-auto">
+          <div className="space-y-1">
+            <div className="text-[9px] font-mono uppercase tracking-widest text-white/20 flex items-center gap-2">
+              <Activity size={10} className="text-green-500/50" /> Network Load
             </div>
-            <div className="text-2xl font-serif italic text-white">Optimal</div>
+            <div className="text-xl font-serif italic text-white/80">Optimal</div>
           </div>
-          <div className="space-y-2">
-            <div className="text-[10px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-2">
-              <Layers size={12} className="text-blue-500" /> Active Nodes
+          <div className="space-y-1">
+            <div className="text-[9px] font-mono uppercase tracking-widest text-white/20 flex items-center gap-2">
+              <Layers size={10} className="text-blue-500/50" /> Active Nodes
             </div>
-            <div className="text-2xl font-serif italic text-white">14,204</div>
+            <div className="text-xl font-serif italic text-white/80">14,204</div>
           </div>
-          <div className="space-y-2">
-            <div className="text-[10px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-2">
-              <Terminal size={12} className="text-purple-500" /> Latency
+          <div className="space-y-1">
+            <div className="text-[9px] font-mono uppercase tracking-widest text-white/20 flex items-center gap-2">
+              <Terminal size={10} className="text-purple-500/50" /> Latency
             </div>
-            <div className="text-2xl font-serif italic text-white">12ms</div>
+            <div className="text-xl font-serif italic text-white/80">12ms</div>
           </div>
         </div>
 
-        {/* Legend */}
-        <div className="absolute bottom-10 right-10 p-8 rounded-[2rem] bg-black/60 backdrop-blur-xl border border-white/10 space-y-6 pointer-events-auto shadow-2xl">
-          <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">
+        {/* Legend / HUD */}
+        <div className="absolute bottom-8 right-8 p-6 rounded-3xl bg-black/40 backdrop-blur-md border border-white/5 space-y-4 pointer-events-auto shadow-2xl">
+          <div className="text-[9px] font-mono uppercase tracking-widest text-white/20">
             Territory Legend
           </div>
-          <div className="space-y-3">
-            <div className="flex items-center gap-4">
-              <div className="w-3 h-3 rounded-full bg-[#a855f7] shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
-              <span className="text-[11px] font-mono text-white/80 uppercase tracking-wider">LLM Highlands</span>
+          <div className="space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-[#a855f7] shadow-[0_0_8px_rgba(168,85,247,0.3)]" />
+              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">LLM Highlands</span>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="w-3 h-3 rounded-full bg-[#3b82f6] shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-              <span className="text-[11px] font-mono text-white/80 uppercase tracking-wider">Cloud Tundra</span>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-[#3b82f6] shadow-[0_0_8px_rgba(59,130,246,0.3)]" />
+              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">Cloud Tundra</span>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="w-3 h-3 rounded-full bg-[#eab308] shadow-[0_0_10px_rgba(234,179,8,0.5)]" />
-              <span className="text-[11px] font-mono text-white/80 uppercase tracking-wider">Semiconductors</span>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-[#eab308] shadow-[0_0_8px_rgba(234,179,8,0.3)]" />
+              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">Semiconductors</span>
             </div>
           </div>
         </div>
@@ -424,67 +423,6 @@ export default function App() {
       <AnimatePresence mode="wait">
         {selectedNode && (
           <Sidebar selected={selectedNode} onClose={() => setSelectedNode(null)} />
-        )}
-      </AnimatePresence>
-
-      {/* Info Modal */}
-      <AnimatePresence>
-        {showInfo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-2xl p-8"
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              className="max-w-3xl bg-zinc-950 border border-white/10 p-16 rounded-[3rem] space-y-10 shadow-[0_0_100px_rgba(59,130,246,0.1)]"
-            >
-              <div className="flex items-center gap-6">
-                <div className="p-5 rounded-[1.5rem] bg-blue-500/20 text-blue-400 shadow-inner">
-                  <GlobeIcon size={48} />
-                </div>
-                <div>
-                  <h2 className="text-6xl font-serif italic text-white leading-none">Digital Ecosystem</h2>
-                  <div className="text-[10px] font-mono uppercase tracking-[0.5em] text-blue-500 mt-2">Planetary Visualization</div>
-                </div>
-              </div>
-              
-              <div className="space-y-6 text-white/60 leading-relaxed font-serif italic text-xl">
-                <p>
-                  This 3D interface maps the cognitive and physical geography of the global technology stack. 
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-6">
-                  <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                    <div className="text-purple-400 mb-3"><Sparkles size={24} /></div>
-                    <div className="text-sm font-mono text-white uppercase mb-2">Highlands</div>
-                    <div className="text-[11px] text-white/40 leading-snug">The peaks of generative intelligence and model synthesis.</div>
-                  </div>
-                  <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                    <div className="text-blue-400 mb-3"><Cloud size={24} /></div>
-                    <div className="text-sm font-mono text-white uppercase mb-2">Tundra</div>
-                    <div className="text-[11px] text-white/40 leading-snug">The vast infrastructure layer powering global data flow.</div>
-                  </div>
-                  <div className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all">
-                    <div className="text-yellow-400 mb-3"><Cpu size={24} /></div>
-                    <div className="text-sm font-mono text-white uppercase mb-2">Archipelago</div>
-                    <div className="text-[11px] text-white/40 leading-snug">The hardware foundation of pure silicon and compute.</div>
-                  </div>
-                </div>
-                <p>
-                  Interact with hubs to analyze node integrity. Arcs visualize the critical supply chains connecting intelligence to hardware.
-                </p>
-              </div>
-
-              <button
-                onClick={() => setShowInfo(false)}
-                className="w-full bg-white text-black font-bold py-6 rounded-[1.5rem] hover:bg-blue-500 hover:text-white transition-all text-xl shadow-2xl"
-              >
-                Initialize Global Interface
-              </button>
-            </motion.div>
-          </motion.div>
         )}
       </AnimatePresence>
     </div>
