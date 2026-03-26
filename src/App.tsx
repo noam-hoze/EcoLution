@@ -20,54 +20,54 @@ const CONTINENTS = [
   { 
     id: 'llm', 
     name: 'LLM Highlands', 
-    lat: 25, lng: 45, 
+    lat: 40, lng: 45, 
     color: '#a855f7', 
     description: 'The peaks of cognitive synthesis and linguistic modeling.',
-    size: 1.8
+    size: 1.2
   },
   { 
     id: 'cloud', 
     name: 'Cloud Tundra', 
-    lat: -15, lng: -35, 
+    lat: -40, lng: -35, 
     color: '#3b82f6', 
     description: 'The vast frozen plains of distributed storage and server farms.',
-    size: 1.8
+    size: 1.2
   },
   { 
     id: 'semis', 
     name: 'Semiconductor Archipelago', 
-    lat: -5, lng: 105, 
+    lat: -30, lng: 105, 
     color: '#eab308', 
     description: 'The volcanic islands of pure compute and lithography.',
-    size: 1.8
+    size: 1.2
   }
 ];
 
 const TECH_HUBS = [
   // LLM Highlands (Intelligence)
-  { id: 'openai', name: 'OpenAI', lat: 28, lng: 42, color: '#a855f7', value: '80B', type: 'Intelligence', control: 85, logo: 'https://www.google.com/s2/favicons?domain=openai.com&sz=128', description: 'Leader in generative pre-trained transformers.' },
-  { id: 'anthropic', name: 'Anthropic', lat: 22, lng: 48, color: '#a855f7', value: '18B', type: 'Intelligence', control: 40, logo: 'https://www.google.com/s2/favicons?domain=anthropic.com&sz=128', description: 'AI safety and research company.' },
-  { id: 'deepmind', name: 'DeepMind', lat: 26, lng: 38, color: '#a855f7', value: 'N/A', type: 'Intelligence', control: 75, logo: 'https://www.google.com/s2/favicons?domain=deepmind.com&sz=128', description: 'Google\'s premier AI research division.' },
-  { id: 'mistral', name: 'Mistral', lat: 30, lng: 45, color: '#a855f7', value: '2B', type: 'Intelligence', control: 20, logo: 'https://www.google.com/s2/favicons?domain=mistral.ai&sz=128', description: 'European champion of open-weight models.' },
+  { id: 'openai', name: 'OpenAI', lat: 35, lng: 35, color: '#a855f7', value: '80B', type: 'Intelligence', control: 85, logo: 'https://www.google.com/s2/favicons?domain=openai.com&sz=128', description: 'Leader in generative pre-trained transformers.' },
+  { id: 'anthropic', name: 'Anthropic', lat: 15, lng: 55, color: '#a855f7', value: '18B', type: 'Intelligence', control: 40, logo: 'https://www.google.com/s2/favicons?domain=anthropic.com&sz=128', description: 'AI safety and research company.' },
+  { id: 'deepmind', name: 'DeepMind', lat: 25, lng: 30, color: '#a855f7', value: 'N/A', type: 'Intelligence', control: 75, logo: 'https://www.google.com/s2/favicons?domain=deepmind.com&sz=128', description: 'Google\'s premier AI research division.' },
+  { id: 'mistral', name: 'Mistral', lat: 45, lng: 50, color: '#a855f7', value: '2B', type: 'Intelligence', control: 20, logo: 'https://www.google.com/s2/favicons?domain=mistral.ai&sz=128', description: 'European champion of open-weight models.' },
 
   // Cloud Tundra (Infrastructure)
-  { id: 'aws', name: 'AWS', lat: -12, lng: -32, color: '#3b82f6', value: '1.2T', type: 'Infrastructure', control: 92, logo: 'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128', description: 'The backbone of the modern internet.' },
-  { id: 'azure', name: 'Azure', lat: -18, lng: -38, color: '#3b82f6', value: '900B', type: 'Infrastructure', control: 88, logo: 'https://www.google.com/s2/favicons?domain=azure.microsoft.com&sz=128', description: 'Enterprise-grade cloud solutions.' },
-  { id: 'gcp', name: 'GCP', lat: -15, lng: -42, color: '#3b82f6', value: '500B', type: 'Infrastructure', control: 65, logo: 'https://www.google.com/s2/favicons?domain=cloud.google.com&sz=128', description: 'Data-centric cloud infrastructure.' },
-  { id: 'oracle', name: 'Oracle', lat: -20, lng: -30, color: '#3b82f6', value: '300B', type: 'Infrastructure', control: 45, logo: 'https://www.google.com/s2/favicons?domain=oracle.com&sz=128', description: 'Legacy database and cloud services.' },
+  { id: 'aws', name: 'AWS', lat: -5, lng: -20, color: '#3b82f6', value: '1.2T', type: 'Infrastructure', control: 92, logo: 'https://www.google.com/s2/favicons?domain=aws.amazon.com&sz=128', description: 'The backbone of the modern internet.' },
+  { id: 'azure', name: 'Azure', lat: -30, lng: -50, color: '#3b82f6', value: '900B', type: 'Infrastructure', control: 88, logo: 'https://www.google.com/s2/favicons?domain=azure.microsoft.com&sz=128', description: 'Enterprise-grade cloud solutions.' },
+  { id: 'gcp', name: 'GCP', lat: -10, lng: -60, color: '#3b82f6', value: '500B', type: 'Infrastructure', control: 65, logo: 'https://www.google.com/s2/favicons?domain=cloud.google.com&sz=128', description: 'Data-centric cloud infrastructure.' },
+  { id: 'oracle', name: 'Oracle', lat: -45, lng: -25, color: '#3b82f6', value: '300B', type: 'Infrastructure', control: 45, logo: 'https://www.google.com/s2/favicons?domain=oracle.com&sz=128', description: 'Legacy database and cloud services.' },
 
   // Semiconductor Archipelago (Compute)
-  { id: 'nvidia', name: 'Nvidia', lat: -2, lng: 102, color: '#eab308', value: '2.1T', type: 'Compute', control: 95, logo: 'https://www.google.com/s2/favicons?domain=nvidia.com&sz=128', description: 'The forge of the AI revolution.' },
-  { id: 'tsmc', name: 'TSMC', lat: -8, lng: 108, color: '#eab308', value: '600B', type: 'Foundry', control: 98, logo: 'https://www.google.com/s2/favicons?domain=tsmc.com&sz=128', description: 'The world\'s most advanced silicon foundry.' },
-  { id: 'asml', name: 'ASML', lat: -5, lng: 98, color: '#eab308', value: '350B', type: 'Lithography', control: 90, logo: 'https://www.google.com/s2/favicons?domain=asml.com&sz=128', description: 'Sole provider of EUV lithography machines.' },
-  { id: 'amd', name: 'AMD', lat: -12, lng: 105, color: '#eab308', value: '280B', type: 'Compute', control: 55, logo: 'https://www.google.com/s2/favicons?domain=amd.com&sz=128', description: 'High-performance computing and graphics.' },
-  { id: 'intel', name: 'Intel', lat: 2, lng: 110, color: '#eab308', value: '180B', type: 'Compute', control: 40, logo: 'https://www.google.com/s2/favicons?domain=intel.com&sz=128', description: 'The legacy titan of x86 architecture.' }
+  { id: 'nvidia', name: 'Nvidia', lat: 10, lng: 90, color: '#eab308', value: '2.1T', type: 'Compute', control: 95, logo: 'https://www.google.com/s2/favicons?domain=nvidia.com&sz=128', description: 'The forge of the AI revolution.' },
+  { id: 'tsmc', name: 'TSMC', lat: -20, lng: 120, color: '#eab308', value: '600B', type: 'Foundry', control: 98, logo: 'https://www.google.com/s2/favicons?domain=tsmc.com&sz=128', description: 'The world\'s most advanced silicon foundry.' },
+  { id: 'asml', name: 'ASML', lat: 5, lng: 80, color: '#eab308', value: '350B', type: 'Lithography', control: 90, logo: 'https://www.google.com/s2/favicons?domain=asml.com&sz=128', description: 'Sole provider of EUV lithography machines.' },
+  { id: 'amd', name: 'AMD', lat: -25, lng: 100, color: '#eab308', value: '280B', type: 'Compute', control: 55, logo: 'https://www.google.com/s2/favicons?domain=amd.com&sz=128', description: 'High-performance computing and graphics.' },
+  { id: 'intel', name: 'Intel', lat: 15, lng: 110, color: '#eab308', value: '180B', type: 'Compute', control: 40, logo: 'https://www.google.com/s2/favicons?domain=intel.com&sz=128', description: 'The legacy titan of x86 architecture.' }
 ];
 
 const ARCS = [
-  { startLat: 28, startLng: 42, endLat: -2, endLng: 102, color: ['#a855f7', '#eab308'], label: 'H100 Allocation' },
-  { startLat: -12, startLng: -32, endLat: 28, endLng: 42, color: ['#3b82f6', '#a855f7'], label: 'Training Compute' },
-  { startLat: -8, startLng: 108, endLat: -12, endLng: -32, color: ['#eab308', '#3b82f6'], label: 'Server Deployment' }
+  { startLat: 35, startLng: 35, endLat: 10, endLng: 90, color: ['#a855f7', '#eab308'], label: 'H100 Allocation' },
+  { startLat: -5, startLng: -20, endLat: 35, endLng: 35, color: ['#3b82f6', '#a855f7'], label: 'Training Compute' },
+  { startLat: -20, startLng: 120, endLat: -5, endLng: -20, color: ['#eab308', '#3b82f6'], label: 'Server Deployment' }
 ];
 
 // Background noise data for hexbins
@@ -186,7 +186,7 @@ export default function App() {
   const globeRef = useRef<any>(null);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [showInfo, setShowInfo] = useState(true);
-  const [isAutoRotate, setIsAutoRotate] = useState(true);
+  const [isAutoRotate, setIsAutoRotate] = useState(false);
   const [showSurvivalEngine, setShowSurvivalEngine] = useState(false);
   const [hubs, setHubs] = useState(TECH_HUBS);
 
@@ -244,6 +244,7 @@ export default function App() {
           labelDotRadius={0.6}
           labelColor={d => (d as any).color}
           labelResolution={3}
+          labelAltitude={0.05}
           onLabelClick={setSelectedNode}
 
           // Points (Tech Hubs)
@@ -251,7 +252,7 @@ export default function App() {
           pointLat={d => (d as any).lat}
           pointLng={d => (d as any).lng}
           pointColor={d => (d as any).color}
-          pointRadius={1.2}
+          pointRadius={0.5}
           pointsMerge={false}
           pointAltitude={0.02}
           onPointClick={setSelectedNode}
@@ -260,25 +261,29 @@ export default function App() {
           htmlElementsData={hubs}
           htmlElement={(d: any) => {
             const el = document.createElement('div');
+            el.style.pointerEvents = 'auto'; // Ensure it captures clicks
             el.innerHTML = `
               <div class="group cursor-pointer flex flex-col items-center">
-                <div class="relative w-10 h-10 flex items-center justify-center">
+                <div class="relative w-8 h-8 flex items-center justify-center">
                   <!-- Outer Glow Ring -->
                   <div class="absolute inset-0 rounded-full bg-white/10 blur-sm group-hover:bg-white/20 transition-all duration-300"></div>
                   <!-- Border Ring -->
                   <div class="absolute inset-0 rounded-full border border-white/20 group-hover:border-white/40 transition-all duration-300"></div>
                   <!-- Logo Container -->
-                  <div class="relative w-8 h-8 rounded-full overflow-hidden bg-black/50 border border-white/10 flex items-center justify-center p-1.5 backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
-                    <img src="${d.logo}" alt="${d.name}" class="w-full h-full object-contain filter brightness-110" />
+                  <div class="relative w-6 h-6 rounded-full overflow-hidden bg-black/50 border border-white/10 flex items-center justify-center p-1 backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
+                    <img src="${d.logo}" alt="${d.name}" class="w-full h-full object-contain filter brightness-110 pointer-events-none" />
                   </div>
                 </div>
                 <!-- Label -->
-                <div class="mt-2 px-3 py-1 rounded-full bg-black/80 border border-white/10 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                  <div class="text-[10px] font-mono text-white whitespace-nowrap uppercase tracking-widest font-bold">${d.name}</div>
+                <div class="mt-1 px-2 py-0.5 rounded-full bg-black/80 border border-white/10 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
+                  <div class="text-[8px] font-mono text-white whitespace-nowrap uppercase tracking-widest font-bold">${d.name}</div>
                 </div>
               </div>
             `;
-            el.onclick = () => setSelectedNode(d);
+            el.onclick = (e) => {
+              e.stopPropagation();
+              setSelectedNode(d);
+            };
             return el;
           }}
 

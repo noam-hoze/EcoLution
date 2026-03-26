@@ -213,7 +213,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                       {analysis.inferredDomain}
                     </span>
                     <span className="text-[9px] font-mono uppercase tracking-widest text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
-                      Territory: {analysis.suggestedTerritoryId.toUpperCase()}
+                      Territory: {analysis.suggestedTerritoryId === 'llm' ? 'LLM Highlands' : analysis.suggestedTerritoryId === 'cloud' ? 'Cloud Tundra' : 'Semiconductor Archipelago'}
                     </span>
                   </div>
                 </div>

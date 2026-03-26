@@ -40,9 +40,9 @@ export const analyzeCompanySurvival = async (
        - "cloud" (Cloud Tundra): For Infrastructure/Cloud/Storage companies.
        - "semis" (Semiconductor Archipelago): For Compute/Hardware/Foundry companies.
     3. Coordinates: Suggest a specific latitude and longitude within that territory's range for visual placement.
-       - llm: lat 20 to 35, lng 35 to 55
-       - cloud: lat -25 to -5, lng -45 to -25
-       - semis: lat -15 to 5, lng 90 to 115
+       - llm: lat 15 to 45, lng 30 to 60
+       - cloud: lat -45 to -5, lng -55 to -15
+       - semis: lat -25 to 15, lng 80 to 125
     4. Competitive Threat: Which "Big Tech" titans are most likely to crush or acquire this company?
     5. Moat Analysis: Does the company have a defensible technical or market advantage?
     
