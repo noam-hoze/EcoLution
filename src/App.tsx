@@ -274,7 +274,7 @@ export default function App() {
           backgroundImageUrl={backgroundImageUrl}
           
           // Atmosphere
-          atmosphereColor="#ef4444"
+          atmosphereColor="#7fcfeb"
           atmosphereAltitude={0.2}
 
           // Labels (Continents)

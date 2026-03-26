@@ -16,13 +16,22 @@ export interface CompanyAnalysis {
   inferredDomain: string;
   suggestedTerritoryId: "llm" | "cloud" | "semis" | "cyber" | "fintech";
   coordinates: { lat: number; lng: number };
+  gapAnalysis: {
+    gap: string;
+    suggestion: string;
+  };
+  dueDiligence: {
+    credibilityScore: number; // 0-100
+    assessment: string;
+  };
 }
 
 export const analyzeCompanySurvival = async (
   companyName: string,
   description: string,
   funding: string,
-  teamSize: number
+  teamSize: number,
+  founderLinkedIn: string[]
 ): Promise<CompanyAnalysis> => {
   const model = "gemini-3.1-pro-preview"; // Using Pro for complex reasoning
 
@@ -49,6 +58,12 @@ export const analyzeCompanySurvival = async (
        - fintech: lat -10 to 20, lng -100 to -70
     4. Competitive Threat: Which "Big Tech" titans are most likely to crush or acquire this company?
     5. Moat Analysis: Does the company have a defensible technical or market advantage?
+    6. Gap Analysis: Identify the primary "Gap" between the current state and a >80% survival probability.
+       - Gap: A short title (e.g., "Capital Starvation", "Niche Pivot Required", "Operational Bloat").
+       - Suggestion: A tactical directive to alter their evolutionary trajectory.
+    7. Due Diligence: Based on the provided LinkedIn profiles, assess the credibility of the founders.
+       - Do they have the domain expertise to build what they claim?
+       - Have they worked at relevant companies or built successful startups before?
     
     You must provide a realistic, non-deterministic assessment. Be critical. Most startups fail or get swallowed.
   `;
@@ -59,6 +74,7 @@ export const analyzeCompanySurvival = async (
     Description: ${description}
     Initial Funding: ${funding}
     Team Size: ${teamSize}
+    Founder LinkedIn Profiles: ${founderLinkedIn.join(", ")}
     
     Provide a detailed survival analysis in JSON format.
   `;
@@ -69,6 +85,7 @@ export const analyzeCompanySurvival = async (
       contents: prompt,
       config: {
         systemInstruction,
+        tools: [{ urlContext: {} }],
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
@@ -89,9 +106,25 @@ export const analyzeCompanySurvival = async (
                 lng: { type: Type.NUMBER }
               },
               required: ["lat", "lng"]
+            },
+            gapAnalysis: {
+              type: Type.OBJECT,
+              properties: {
+                gap: { type: Type.STRING, description: "The primary survival gap identified" },
+                suggestion: { type: Type.STRING, description: "Tactical directive to close the gap" }
+              },
+              required: ["gap", "suggestion"]
+            },
+            dueDiligence: {
+              type: Type.OBJECT,
+              properties: {
+                credibilityScore: { type: Type.NUMBER, description: "0-100 score of team credibility" },
+                assessment: { type: Type.STRING, description: "Detailed assessment of the team's ability to execute" }
+              },
+              required: ["credibilityScore", "assessment"]
             }
           },
-          required: ["survivalChance", "prediction", "strengths", "weaknesses", "competitiveLandscape", "verdict", "suggestedStrategy", "inferredDomain", "suggestedTerritoryId", "coordinates"]
+          required: ["survivalChance", "prediction", "strengths", "weaknesses", "competitiveLandscape", "verdict", "suggestedStrategy", "inferredDomain", "suggestedTerritoryId", "coordinates", "gapAnalysis", "dueDiligence"]
         }
       }
     });

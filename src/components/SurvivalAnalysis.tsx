@@ -5,7 +5,7 @@ import {
   Layers, Globe as GlobeIcon, Info, X, Terminal,
   Database, Network, Server, Radio, Box, Play, Pause,
   TrendingUp, TrendingDown, AlertCircle, CheckCircle2,
-  ArrowRight, Loader2
+  ArrowRight, Loader2, Linkedin, Plus, Trash2, UserCheck
 } from 'lucide-react';
 import { analyzeCompanySurvival, CompanyAnalysis } from '../services/aiEngine';
 
@@ -21,7 +21,8 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
     domain: 'Intelligence',
     description: '',
     funding: '',
-    teamSize: 1
+    teamSize: 1,
+    founderLinkedIn: ['']
   });
   const [analysis, setAnalysis] = useState<CompanyAnalysis | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -38,7 +39,8 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
         formData.name,
         formData.description,
         formData.funding,
-        formData.teamSize
+        formData.teamSize,
+        formData.founderLinkedIn.filter(url => url.trim() !== '')
       );
       setAnalysis(result);
       setStep('result');
@@ -161,6 +163,51 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                     </div>
                   </div>
 
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <label className="text-[10px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-2">
+                        <Linkedin size={10} className="text-red-400" /> Founder LinkedIn Profiles
+                      </label>
+                      <button 
+                        type="button"
+                        onClick={() => setFormData({...formData, founderLinkedIn: [...formData.founderLinkedIn, '']})}
+                        className="text-[10px] font-mono uppercase tracking-widest text-red-400 hover:text-red-300 flex items-center gap-1"
+                      >
+                        <Plus size={10} /> Add Founder
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      {formData.founderLinkedIn.map((url, index) => (
+                        <div key={index} className="flex gap-2">
+                          <input 
+                            required
+                            type="url"
+                            value={url}
+                            onChange={e => {
+                              const newFounders = [...formData.founderLinkedIn];
+                              newFounders[index] = e.target.value;
+                              setFormData({...formData, founderLinkedIn: newFounders});
+                            }}
+                            className="flex-1 bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-red-500/50 transition-colors"
+                            placeholder="https://linkedin.com/in/founder"
+                          />
+                          {formData.founderLinkedIn.length > 1 && (
+                            <button 
+                              type="button"
+                              onClick={() => {
+                                const newFounders = formData.founderLinkedIn.filter((_, i) => i !== index);
+                                setFormData({...formData, founderLinkedIn: newFounders});
+                              }}
+                              className="p-4 rounded-xl bg-white/5 border border-white/10 text-white/30 hover:text-red-400 hover:border-red-500/50 transition-all"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                   {error && (
                     <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs flex items-center gap-3">
                       <AlertCircle size={16} />
@@ -172,7 +219,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                     type="submit"
                     className="w-full py-6 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-serif italic text-xl transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] flex items-center justify-center gap-3 group"
                   >
-                    Start
+                    Evolve
                     <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                 </form>
@@ -245,14 +292,29 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
                       {analysis.survivalChance > 50 ? <TrendingUp size={80} /> : <TrendingDown size={80} />}
                     </div>
-                    <div className="relative z-10 space-y-2">
-                      <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">Survival Probability</div>
-                      <div className="text-7xl font-serif italic text-white">{analysis.survivalChance}%</div>
+                    <div className="grid grid-cols-2 gap-8 relative z-10">
+                      <div className="space-y-2">
+                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">Survival Probability</div>
+                        <div className="text-7xl font-serif italic text-white">{analysis.survivalChance}%</div>
+                      </div>
+                      <div className="space-y-2 border-l border-white/10 pl-8">
+                        <div className="text-[10px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-2">
+                          <UserCheck size={12} className="text-red-400" /> Credibility Score
+                        </div>
+                        <div className="text-7xl font-serif italic text-red-500">{analysis.dueDiligence.credibilityScore}%</div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-6">
+                  <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                    <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">Team Due Diligence</div>
+                    <p className="text-sm text-white/80 leading-relaxed italic">
+                      "{analysis.dueDiligence.assessment}"
+                    </p>
+                  </div>
+
                   <div className="space-y-3">
                     <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">AI Prediction</div>
                     <p className="text-lg text-white/80 leading-relaxed font-serif italic">
@@ -292,11 +354,22 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                     </p>
                   </div>
 
-                  <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
-                    <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">Suggested Strategy</div>
-                    <p className="text-sm text-white/70 leading-relaxed italic">
-                      {analysis.suggestedStrategy}
-                    </p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="p-6 rounded-2xl bg-red-500/5 border border-red-500/20 space-y-3">
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-red-400 flex items-center gap-2">
+                        <AlertCircle size={12} /> Survival Gap: {analysis.gapAnalysis.gap}
+                      </div>
+                      <p className="text-sm text-white/70 leading-relaxed">
+                        {analysis.gapAnalysis.suggestion}
+                      </p>
+                    </div>
+
+                    <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">Suggested Strategy</div>
+                      <p className="text-sm text-white/70 leading-relaxed italic">
+                        {analysis.suggestedStrategy}
+                      </p>
+                    </div>
                   </div>
                 </div>
 
