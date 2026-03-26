@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useAnimation } from 'motion/react';
 import { Entity, Epoch } from '../types';
-import { User, Factory, Cpu, Users, Sparkles, Settings } from 'lucide-react';
+import { User, Factory, Cpu, Users, Settings, CreditCard, ShoppingBag, Rocket, Cloud, Cpu as Chip, Sparkles, Smartphone, Share2 } from 'lucide-react';
 
 interface CorporateBeingProps {
   entity: Entity;
@@ -54,6 +54,22 @@ export const CorporateBeing: React.FC<CorporateBeingProps> = ({
         />
       );
     }
+
+    // Domain-specific icons for Corporate entities
+    if (entity.domains && entity.domains.length > 0) {
+      const primaryDomain = entity.domains[0];
+      switch (primaryDomain) {
+        case 'Generative AI': return <Sparkles size={24} />;
+        case 'Cloud Infrastructure': return <Cloud size={24} />;
+        case 'Semiconductors': return <Chip size={24} />;
+        case 'Defense & Aerospace': return <Rocket size={24} />;
+        case 'Social Media': return <Share2 size={24} />;
+        case 'Consumer Electronics': return <Smartphone size={24} />;
+        case 'FinTech': return <CreditCard size={24} />;
+        case 'E-Commerce': return <ShoppingBag size={24} />;
+      }
+    }
+
     switch (entity.type) {
       case 'Human': return <Users size={24} />;
       case 'Machine': return <Settings size={24} className="animate-spin-slow" />;
@@ -74,6 +90,13 @@ export const CorporateBeing: React.FC<CorporateBeingProps> = ({
     }
   };
 
+  // Calculate shadow angle (pointing away from center 50, 50)
+  const shadowAngle = useMemo(() => {
+    const dx = pos.x - 50;
+    const dy = pos.y - 50;
+    return Math.atan2(dy, dx) * (180 / Math.PI);
+  }, [pos]);
+
   return (
     <motion.div
       animate={controls}
@@ -89,6 +112,17 @@ export const CorporateBeing: React.FC<CorporateBeingProps> = ({
       
       {/* The "Being" */}
       <div className="relative flex flex-col items-center">
+        {/* Planetary Shadow - Points away from center */}
+        <div 
+          className="absolute w-12 h-4 bg-black/40 blur-[8px] rounded-full transition-all duration-500 group-hover:w-16 group-hover:blur-[12px]"
+          style={{ 
+            top: '120%',
+            left: '50%',
+            transform: `translate(-50%, -50%) rotate(${shadowAngle}deg) translateX(10px)`,
+            opacity: 0.6
+          }}
+        />
+
         {/* Silhouette */}
         <div className="relative">
           <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
@@ -98,17 +132,15 @@ export const CorporateBeing: React.FC<CorporateBeingProps> = ({
           }`}>
             {getIcon()}
           </div>
-          {/* Base Shadow */}
-          <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-2 rounded-full blur-[4px] transition-all duration-500 group-hover:w-8 group-hover:blur-[6px] ${entity.isUser ? 'bg-orange-500/40' : 'bg-white/10'}`} />
         </div>
         
         {/* Floating Label */}
-        <div className="mt-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/10 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
-          <div className="text-[10px] font-mono uppercase tracking-widest text-white whitespace-nowrap">
+        <div className="mt-6 px-4 py-2 rounded-xl bg-black/80 backdrop-blur-xl border border-white/10 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-2xl">
+          <div className="text-[11px] font-mono uppercase tracking-widest text-white whitespace-nowrap font-bold">
             {entity.name}
           </div>
-          <div className="text-[8px] font-mono text-green-500 text-center">
-            {entity.value.toFixed(2)}
+          <div className="text-[9px] font-mono text-green-400 text-center mt-1">
+            VAL: ${entity.value.toFixed(2)}B
           </div>
         </div>
       </div>

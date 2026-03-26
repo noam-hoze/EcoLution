@@ -32,11 +32,11 @@ export interface Domain {
   name: string;
   x: number;
   y: number;
-  width: number;
-  height: number;
+  radius: number;
   color: string;
   imageUrl?: string;
   icon?: string;
+  description?: string;
 }
 
 export interface SimulationResult {
