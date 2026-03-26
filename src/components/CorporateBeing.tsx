@@ -40,13 +40,16 @@ export const CorporateBeing: React.FC<CorporateBeingProps> = ({
     walk();
   }, []);
 
+  const [imageError, setImageError] = useState(false);
+
   const getIcon = () => {
-    if (entity.logoUrl) {
+    if (entity.logoUrl && !imageError) {
       return (
         <img 
           src={entity.logoUrl} 
           alt={entity.name} 
           referrerPolicy="no-referrer"
+          onError={() => setImageError(true)}
           className="w-8 h-8 object-contain rounded-lg group-hover:scale-110 transition-transform duration-500"
         />
       );
