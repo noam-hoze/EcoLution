@@ -10,7 +10,7 @@ import {
   Zap, Shield, Cpu, Cloud, Sparkles, Activity, 
   Layers, Globe as GlobeIcon, Info, X, Terminal,
   Database, Network, Server, Radio, Box, Play, Pause,
-  Target
+  Target, DollarSign
 } from 'lucide-react';
 import { SurvivalAnalysis } from './components/SurvivalAnalysis';
 
@@ -40,6 +40,22 @@ const CONTINENTS = [
     color: '#eab308', 
     description: 'The volcanic islands of pure compute and lithography.',
     size: 1.2
+  },
+  { 
+    id: 'cyber', 
+    name: 'Cybersecurity Bastion', 
+    lat: 60, lng: 5, 
+    color: '#ef4444', 
+    description: 'The fortified mountains of digital defense and threat intelligence.',
+    size: 1.2
+  },
+  { 
+    id: 'fintech', 
+    name: 'FinTech Nexus', 
+    lat: 5, lng: -85, 
+    color: '#10b981', 
+    description: 'The high-speed canyons of digital value exchange.',
+    size: 1.2
   }
 ];
 
@@ -61,7 +77,17 @@ const TECH_HUBS = [
   { id: 'tsmc', name: 'TSMC', lat: -20, lng: 120, color: '#eab308', value: '600B', type: 'Foundry', control: 98, logo: 'https://www.google.com/s2/favicons?domain=tsmc.com&sz=128', description: 'The world\'s most advanced silicon foundry.' },
   { id: 'asml', name: 'ASML', lat: 5, lng: 80, color: '#eab308', value: '350B', type: 'Lithography', control: 90, logo: 'https://www.google.com/s2/favicons?domain=asml.com&sz=128', description: 'Sole provider of EUV lithography machines.' },
   { id: 'amd', name: 'AMD', lat: -25, lng: 100, color: '#eab308', value: '280B', type: 'Compute', control: 55, logo: 'https://www.google.com/s2/favicons?domain=amd.com&sz=128', description: 'High-performance computing and graphics.' },
-  { id: 'intel', name: 'Intel', lat: 15, lng: 110, color: '#eab308', value: '180B', type: 'Compute', control: 40, logo: 'https://www.google.com/s2/favicons?domain=intel.com&sz=128', description: 'The legacy titan of x86 architecture.' }
+  { id: 'intel', name: 'Intel', lat: 15, lng: 110, color: '#eab308', value: '180B', type: 'Compute', control: 40, logo: 'https://www.google.com/s2/favicons?domain=intel.com&sz=128', description: 'The legacy titan of x86 architecture.' },
+
+  // Cybersecurity Bastion (Security)
+  { id: 'crowdstrike', name: 'CrowdStrike', lat: 55, lng: 10, color: '#ef4444', value: '75B', type: 'Security', control: 82, logo: 'https://www.google.com/s2/favicons?domain=crowdstrike.com&sz=128', description: 'Leader in cloud-delivered endpoint protection.' },
+  { id: 'paloalto', name: 'Palo Alto', lat: 65, lng: -5, color: '#ef4444', value: '100B', type: 'Security', control: 85, logo: 'https://www.google.com/s2/favicons?domain=paloaltonetworks.com&sz=128', description: 'Global leader in cybersecurity solutions.' },
+  { id: 'cloudflare', name: 'Cloudflare', lat: 50, lng: 15, color: '#ef4444', value: '30B', type: 'Security', control: 70, logo: 'https://www.google.com/s2/favicons?domain=cloudflare.com&sz=128', description: 'Security and performance for the modern web.' },
+
+  // FinTech Nexus (Finance)
+  { id: 'stripe', name: 'Stripe', lat: 10, lng: -80, color: '#10b981', value: '65B', type: 'Finance', control: 88, logo: 'https://www.google.com/s2/favicons?domain=stripe.com&sz=128', description: 'Financial infrastructure for the internet.' },
+  { id: 'adyen', name: 'Adyen', lat: 0, lng: -90, color: '#10b981', value: '45B', type: 'Finance', control: 75, logo: 'https://www.google.com/s2/favicons?domain=adyen.com&sz=128', description: 'Modern payment platform for global business.' },
+  { id: 'coinbase', name: 'Coinbase', lat: 15, lng: -75, color: '#10b981', value: '50B', type: 'Finance', control: 60, logo: 'https://www.google.com/s2/favicons?domain=coinbase.com&sz=128', description: 'Gateway for digital asset exchange.' }
 ];
 
 const ARCS = [
@@ -92,8 +118,8 @@ const Sidebar: React.FC<{ selected: any; onClose: () => void }> = ({ selected, o
 
     <div className="space-y-6 pt-10">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-[1px] bg-blue-500/50" />
-        <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-blue-400 font-bold">
+        <div className="w-10 h-[1px] bg-red-500/50" />
+        <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-red-400 font-bold">
           Node Analysis
         </div>
       </div>
@@ -108,7 +134,7 @@ const Sidebar: React.FC<{ selected: any; onClose: () => void }> = ({ selected, o
         </h2>
       </div>
       <div className="flex items-center gap-2 text-xs text-white/40 font-mono uppercase tracking-widest">
-        {selected.icon && <span className="text-blue-400">{selected.icon}</span>}
+        {selected.icon && <span className="text-red-400">{selected.icon}</span>}
         {selected.type || 'Territory'}
       </div>
     </div>
@@ -119,16 +145,16 @@ const Sidebar: React.FC<{ selected: any; onClose: () => void }> = ({ selected, o
           <Activity size={12} /> Territory Control
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-4xl font-serif italic text-blue-400">
+          <span className="text-4xl font-serif italic text-red-400">
             {selected.control || '0'}%
           </span>
-          <span className="text-[10px] text-blue-500/50 font-mono">Dominance</span>
+          <span className="text-[10px] text-red-500/50 font-mono">Dominance</span>
         </div>
         <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
           <motion.div 
             initial={{ width: 0 }}
             animate={{ width: `${selected.control || 0}%` }}
-            className="h-full bg-blue-500"
+            className="h-full bg-red-500"
           />
         </div>
       </div>
@@ -168,14 +194,14 @@ const Sidebar: React.FC<{ selected: any; onClose: () => void }> = ({ selected, o
     <div className="mt-auto pt-10 border-t border-white/10">
       <div className="flex justify-between items-center text-[10px] font-mono text-white/30 uppercase tracking-widest">
         <span>Network Integrity</span>
-        <span className="text-blue-400">98.2%</span>
+        <span className="text-red-400">98.2%</span>
       </div>
       <div className="h-1.5 w-full bg-white/5 rounded-full mt-3 overflow-hidden p-[1px] border border-white/10">
         <motion.div 
           initial={{ width: 0 }}
           animate={{ width: '98.2%' }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          className="h-full bg-gradient-to-r from-blue-600 to-blue-400 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+          className="h-full bg-gradient-to-r from-red-600 to-red-400 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]"
         />
       </div>
     </div>
@@ -248,7 +274,7 @@ export default function App() {
           backgroundImageUrl={backgroundImageUrl}
           
           // Atmosphere
-          atmosphereColor="#3b82f6"
+          atmosphereColor="#ef4444"
           atmosphereAltitude={0.2}
 
           // Labels (Continents)
@@ -331,8 +357,8 @@ export default function App() {
           hexBinPointWeight="weight"
           hexBinResolution={4}
           hexMargin={0.2}
-          hexTopColor={() => 'rgba(59, 130, 246, 0.4)'}
-          hexSideColor={() => 'rgba(59, 130, 246, 0.1)'}
+          hexTopColor={() => 'rgba(239, 68, 68, 0.4)'}
+          hexSideColor={() => 'rgba(239, 68, 68, 0.1)'}
           hexAltitude={d => (d as any).sumWeight * 0.01}
         />
       </div>
@@ -352,50 +378,23 @@ export default function App() {
         {/* Header / HUD */}
         <header className="absolute top-0 left-0 right-0 p-8 flex justify-between items-start pointer-events-auto">
           <div className="space-y-2">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-[1px] bg-blue-500/50" />
-              <div className="text-[9px] font-mono uppercase tracking-[0.3em] text-blue-400/80 font-bold">
-                System Active // v3.0
-              </div>
-            </div>
             <h1 className="text-4xl font-serif italic text-white tracking-tighter leading-none opacity-90">
-              The Global <span className="text-blue-500">Stack</span>
+              Eco<span className="text-red-500">lution</span>
             </h1>
           </div>
 
           <div className="flex gap-3">
             <button 
               onClick={() => setShowSurvivalEngine(true)}
-              className="px-5 py-3 rounded-xl bg-purple-600/10 border border-purple-500/30 text-purple-400 hover:bg-purple-600/20 transition-all shadow-2xl flex items-center gap-2 group backdrop-blur-md"
+              className="px-5 py-3 rounded-xl bg-red-600/10 border border-red-500/30 text-red-400 hover:bg-red-600/20 transition-all shadow-2xl flex items-center gap-2 group backdrop-blur-md"
               title="Survival Engine"
             >
-              <Target size={16} className="group-hover:rotate-12 transition-transform" />
+              <DollarSign size={16} className="group-hover:scale-110 transition-transform" />
               <span className="text-[9px] font-mono uppercase tracking-[0.15em] font-bold">Start</span>
             </button>
           </div>
         </header>
 
-        {/* Bottom Stats / HUD */}
-        <div className="absolute bottom-8 left-8 flex gap-12 pointer-events-auto">
-          <div className="space-y-1">
-            <div className="text-[9px] font-mono uppercase tracking-widest text-white/20 flex items-center gap-2">
-              <Activity size={10} className="text-green-500/50" /> Network Load
-            </div>
-            <div className="text-xl font-serif italic text-white/80">Optimal</div>
-          </div>
-          <div className="space-y-1">
-            <div className="text-[9px] font-mono uppercase tracking-widest text-white/20 flex items-center gap-2">
-              <Layers size={10} className="text-blue-500/50" /> Active Nodes
-            </div>
-            <div className="text-xl font-serif italic text-white/80">14,204</div>
-          </div>
-          <div className="space-y-1">
-            <div className="text-[9px] font-mono uppercase tracking-widest text-white/20 flex items-center gap-2">
-              <Terminal size={10} className="text-purple-500/50" /> Latency
-            </div>
-            <div className="text-xl font-serif italic text-white/80">12ms</div>
-          </div>
-        </div>
 
         {/* Legend / HUD */}
         <div className="absolute bottom-8 right-8 p-6 rounded-3xl bg-black/40 backdrop-blur-md border border-white/5 space-y-4 pointer-events-auto shadow-2xl">
@@ -414,6 +413,14 @@ export default function App() {
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 rounded-full bg-[#eab308] shadow-[0_0_8px_rgba(234,179,8,0.3)]" />
               <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">Semiconductors</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-[#ef4444] shadow-[0_0_8px_rgba(239,68,68,0.3)]" />
+              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">Cybersecurity</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-[#10b981] shadow-[0_0_8px_rgba(16,185,129,0.3)]" />
+              <span className="text-[10px] font-mono text-white/60 uppercase tracking-wider">FinTech Nexus</span>
             </div>
           </div>
         </div>

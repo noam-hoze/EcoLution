@@ -14,7 +14,7 @@ export interface CompanyAnalysis {
   verdict: "SURVIVE" | "ACQUIRED" | "FAIL";
   suggestedStrategy: string;
   inferredDomain: string;
-  suggestedTerritoryId: "llm" | "cloud" | "semis";
+  suggestedTerritoryId: "llm" | "cloud" | "semis" | "cyber" | "fintech";
   coordinates: { lat: number; lng: number };
 }
 
@@ -34,15 +34,19 @@ export const analyzeCompanySurvival = async (
     ${JSON.stringify(companyDocs, null, 2)}
 
     Evaluation Criteria:
-    1. Domain Inference: Based on the description, identify which domain the company belongs to (e.g., Intelligence, Infrastructure, Compute, Foundry, Lithography).
-    2. Territory Placement: Assign the company to one of the three main territories:
+    1. Domain Inference: Based on the description, identify which domain the company belongs to (e.g., Intelligence, Infrastructure, Compute, Foundry, Lithography, Security, Finance).
+    2. Territory Placement: Assign the company to one of the main territories:
        - "llm" (LLM Highlands): For Intelligence/AI software companies.
        - "cloud" (Cloud Tundra): For Infrastructure/Cloud/Storage companies.
        - "semis" (Semiconductor Archipelago): For Compute/Hardware/Foundry companies.
+       - "cyber" (Cybersecurity Bastion): For Security/Defense/Threat Intelligence companies.
+       - "fintech" (FinTech Nexus): For Finance/Payments/Crypto companies.
     3. Coordinates: Suggest a specific latitude and longitude within that territory's range for visual placement.
        - llm: lat 15 to 45, lng 30 to 60
        - cloud: lat -45 to -5, lng -55 to -15
        - semis: lat -25 to 15, lng 80 to 125
+       - cyber: lat 50 to 75, lng -10 to 20
+       - fintech: lat -10 to 20, lng -100 to -70
     4. Competitive Threat: Which "Big Tech" titans are most likely to crush or acquire this company?
     5. Moat Analysis: Does the company have a defensible technical or market advantage?
     
@@ -77,7 +81,7 @@ export const analyzeCompanySurvival = async (
             verdict: { type: Type.STRING, enum: ["SURVIVE", "ACQUIRED", "FAIL"] },
             suggestedStrategy: { type: Type.STRING, description: "What the company should do to increase survival odds" },
             inferredDomain: { type: Type.STRING, description: "The industry domain inferred from the description" },
-            suggestedTerritoryId: { type: Type.STRING, enum: ["llm", "cloud", "semis"] },
+            suggestedTerritoryId: { type: Type.STRING, enum: ["llm", "cloud", "semis", "cyber", "fintech"] },
             coordinates: {
               type: Type.OBJECT,
               properties: {

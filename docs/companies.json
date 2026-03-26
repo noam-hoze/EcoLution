@@ -20,6 +20,20 @@
       "focus": "Compute",
       "description": "The volcanic islands of pure compute and lithography. Where the physical hardware that powers AI and cloud is designed and manufactured.",
       "key_players": ["nvidia", "tsmc", "asml", "amd", "intel"]
+    },
+    {
+      "id": "cyber",
+      "name": "Cybersecurity Bastion",
+      "focus": "Security",
+      "description": "The fortified mountains of digital defense and threat intelligence. Critical for protecting the integrity of the Global Stack.",
+      "key_players": ["crowdstrike", "paloalto", "cloudflare", "zscaler"]
+    },
+    {
+      "id": "fintech",
+      "name": "FinTech Nexus",
+      "focus": "Finance",
+      "description": "The high-speed canyons of digital value exchange and algorithmic markets. Where the economy of the Global Stack is settled.",
+      "key_players": ["stripe", "adyen", "coinbase", "revolut"]
     }
   ],
   "companies": [
@@ -112,6 +126,46 @@
       "strengths": ["Process node leadership (3nm, 2nm)", "Massive scale", "Trusted partner for all major chip designers"],
       "weaknesses": ["Geopolitical risk (Taiwan location)", "High capital expenditure requirements"],
       "description": "The world's most advanced silicon foundry, manufacturing chips for Apple, Nvidia, and AMD."
+    },
+    {
+      "id": "crowdstrike",
+      "name": "CrowdStrike",
+      "domain": "Security",
+      "market_value": "75B",
+      "market_control": 82,
+      "strengths": ["Cloud-native Falcon platform", "Threat intelligence leadership", "Strong enterprise adoption"],
+      "weaknesses": ["High pricing", "Intense competition from Microsoft Defender"],
+      "description": "Leader in cloud-delivered endpoint and workload protection."
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "domain": "Security",
+      "market_value": "30B",
+      "market_control": 70,
+      "strengths": ["Massive global edge network", "WAF and DDoS protection dominance", "Developer-friendly Workers platform"],
+      "weaknesses": ["Monetization of free tier", "Enterprise sales friction"],
+      "description": "The security and performance layer for the modern web."
+    },
+    {
+      "id": "stripe",
+      "name": "Stripe",
+      "domain": "Finance",
+      "market_value": "65B",
+      "market_control": 88,
+      "strengths": ["Developer experience", "Global payment infrastructure", "Rapid product expansion (Atlas, Issuing)"],
+      "weaknesses": ["Margin compression in payments", "Increasing regulatory scrutiny"],
+      "description": "The financial infrastructure for the internet."
+    },
+    {
+      "id": "coinbase",
+      "name": "Coinbase",
+      "domain": "Finance",
+      "market_value": "50B",
+      "market_control": 60,
+      "strengths": ["Brand trust in US market", "Institutional custody services", "Base L2 network growth"],
+      "weaknesses": ["Crypto market volatility", "Regulatory uncertainty in the US"],
+      "description": "The primary gateway for digital asset exchange and institutional crypto services."
     }
   ]
 }

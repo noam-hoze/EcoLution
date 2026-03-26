@@ -49,7 +49,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
           name: formData.name,
           lat: result.coordinates.lat,
           lng: result.coordinates.lng,
-          color: result.verdict === 'SURVIVE' ? '#22c55e' : result.verdict === 'ACQUIRED' ? '#3b82f6' : '#ef4444',
+          color: result.verdict === 'SURVIVE' ? '#22c55e' : result.verdict === 'ACQUIRED' ? '#f87171' : '#ef4444',
           type: result.inferredDomain,
           description: result.prediction,
           logo: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name)}&background=random&color=fff`,
@@ -81,8 +81,8 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
         <div className="p-12 overflow-y-auto no-scrollbar">
           <div className="flex justify-between items-center mb-10">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-[1px] bg-purple-500/50" />
-              <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-purple-400 font-bold">
+              <div className="w-10 h-[1px] bg-red-500/50" />
+              <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-red-400 font-bold">
                 Survival Engine v1.1
               </div>
             </div>
@@ -105,7 +105,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
               >
                 <div className="space-y-2 text-center">
                   <h2 className="text-6xl font-serif italic text-white tracking-tighter">
-                    Let me <span className="text-purple-500">in!</span>
+                    Let me <span className="text-red-500">in!</span>
                   </h2>
                   <p className="text-sm text-white/40 font-mono uppercase tracking-widest">
                     Define your company. Domain and territory will be inferred by AI.
@@ -120,7 +120,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                       type="text"
                       value={formData.name}
                       onChange={e => setFormData({...formData, name: e.target.value})}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-purple-500/50 transition-colors"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-red-500/50 transition-colors"
                       placeholder="e.g. NeuralFlow"
                     />
                   </div>
@@ -131,7 +131,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                       required
                       value={formData.description}
                       onChange={e => setFormData({...formData, description: e.target.value})}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-purple-500/50 transition-colors h-32 resize-none"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-red-500/50 transition-colors h-32 resize-none"
                       placeholder="What do you build? Why can't the giants copy you?"
                     />
                   </div>
@@ -144,7 +144,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                         type="text"
                         value={formData.funding}
                         onChange={e => setFormData({...formData, funding: e.target.value})}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-purple-500/50 transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-red-500/50 transition-colors"
                         placeholder="e.g. $5M"
                       />
                     </div>
@@ -156,7 +156,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                         min="1"
                         value={formData.teamSize}
                         onChange={e => setFormData({...formData, teamSize: parseInt(e.target.value)})}
-                        className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-purple-500/50 transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-xl p-4 text-white focus:outline-none focus:border-red-500/50 transition-colors"
                       />
                     </div>
                   </div>
@@ -170,7 +170,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
 
                   <button 
                     type="submit"
-                    className="w-full py-6 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white font-serif italic text-xl transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] flex items-center justify-center gap-3 group"
+                    className="w-full py-6 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-serif italic text-xl transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] flex items-center justify-center gap-3 group"
                   >
                     Start
                     <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
@@ -188,12 +188,12 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                 className="flex-1 flex flex-col items-center justify-center space-y-8 py-20"
               >
                 <div className="relative">
-                  <div className="absolute inset-0 rounded-full bg-purple-500/20 blur-2xl animate-pulse" />
-                  <Loader2 size={80} className="text-purple-500 animate-spin relative z-10" />
+                  <div className="absolute inset-0 rounded-full bg-red-500/20 blur-2xl animate-pulse" />
+                  <Loader2 size={80} className="text-red-500 animate-spin relative z-10" />
                 </div>
                 <div className="text-center space-y-4">
                   <h3 className="text-3xl font-serif italic text-white tracking-tighter">
-                    Inferring <span className="text-purple-500">Identity</span>
+                    Inferring <span className="text-red-500">Identity</span>
                   </h3>
                   <div className="space-y-2">
                     <p className="text-xs text-white/40 font-mono uppercase tracking-widest animate-pulse">Analyzing Description...</p>
@@ -218,18 +218,24 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                         {formData.name}
                       </h2>
                       <div className="flex gap-2">
-                        <span className="text-[9px] font-mono uppercase tracking-widest text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">
+                        <span className="text-[9px] font-mono uppercase tracking-widest text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">
                           {analysis.inferredDomain}
                         </span>
-                        <span className="text-[9px] font-mono uppercase tracking-widest text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
-                          Territory: {analysis.suggestedTerritoryId === 'llm' ? 'LLM Highlands' : analysis.suggestedTerritoryId === 'cloud' ? 'Cloud Tundra' : 'Semiconductor Archipelago'}
+                        <span className="text-[9px] font-mono uppercase tracking-widest text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">
+                          Territory: {
+                            analysis.suggestedTerritoryId === 'llm' ? 'LLM Highlands' : 
+                            analysis.suggestedTerritoryId === 'cloud' ? 'Cloud Tundra' : 
+                            analysis.suggestedTerritoryId === 'semis' ? 'Semiconductors' :
+                            analysis.suggestedTerritoryId === 'cyber' ? 'Cybersecurity' :
+                            'FinTech Nexus'
+                          }
                         </span>
                       </div>
                     </div>
                     <div className={`px-4 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest border ${
-                      analysis.verdict === 'SURVIVE' ? 'bg-green-500/10 border-green-500/50 text-green-400' :
-                      analysis.verdict === 'ACQUIRED' ? 'bg-blue-500/10 border-blue-500/50 text-blue-400' :
-                      'bg-red-500/10 border-red-500/50 text-red-400'
+                      analysis.verdict === 'SURVIVE' ? 'bg-red-500/10 border-red-500/50 text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.2)]' :
+                      analysis.verdict === 'ACQUIRED' ? 'bg-red-400/10 border-red-400/50 text-red-300' :
+                      'bg-red-900/20 border-red-900/50 text-red-500'
                     }`}>
                       {analysis.verdict}
                     </div>
@@ -256,11 +262,11 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
 
                   <div className="grid grid-cols-2 gap-6">
                     <div className="space-y-3">
-                      <div className="text-[10px] font-mono uppercase tracking-widest text-green-500/50">Strengths</div>
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-red-400/50">Strengths</div>
                       <ul className="space-y-2">
                         {analysis.strengths.map((s, i) => (
                           <li key={i} className="text-xs text-white/60 flex items-start gap-2">
-                            <CheckCircle2 size={12} className="text-green-500 mt-0.5 shrink-0" />
+                            <CheckCircle2 size={12} className="text-red-400 mt-0.5 shrink-0" />
                             {s}
                           </li>
                         ))}
@@ -279,8 +285,8 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                     </div>
                   </div>
 
-                  <div className="p-6 rounded-2xl bg-purple-500/5 border border-purple-500/20 space-y-3">
-                    <div className="text-[10px] font-mono uppercase tracking-widest text-purple-400">Competitive Landscape</div>
+                  <div className="p-6 rounded-2xl bg-red-500/5 border border-red-500/20 space-y-3">
+                    <div className="text-[10px] font-mono uppercase tracking-widest text-red-400">Competitive Landscape</div>
                     <p className="text-sm text-white/70 leading-relaxed">
                       {analysis.competitiveLandscape}
                     </p>
