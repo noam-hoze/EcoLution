@@ -1,0 +1,117 @@
+{
+  "territories": [
+    {
+      "id": "llm",
+      "name": "LLM Highlands",
+      "focus": "Intelligence",
+      "description": "The peaks of cognitive synthesis and linguistic modeling. Dominated by companies developing large language models and frontier AI research.",
+      "key_players": ["openai", "anthropic", "deepmind", "mistral"]
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud Tundra",
+      "focus": "Infrastructure",
+      "description": "The vast frozen plains of distributed storage and server farms. The backbone of the internet, providing the compute and storage necessary for all digital services.",
+      "key_players": ["aws", "azure", "gcp", "oracle"]
+    },
+    {
+      "id": "semis",
+      "name": "Semiconductor Archipelago",
+      "focus": "Compute",
+      "description": "The volcanic islands of pure compute and lithography. Where the physical hardware that powers AI and cloud is designed and manufactured.",
+      "key_players": ["nvidia", "tsmc", "asml", "amd", "intel"]
+    }
+  ],
+  "companies": [
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "domain": "Intelligence",
+      "market_value": "80B",
+      "market_control": 85,
+      "strengths": ["First-mover advantage in consumer LLMs", "Microsoft partnership", "Top-tier research talent"],
+      "weaknesses": ["High compute costs", "Increasing competition from open-source", "Governance challenges"],
+      "description": "Leader in generative pre-trained transformers and creator of ChatGPT."
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic",
+      "domain": "Intelligence",
+      "market_value": "18B",
+      "market_control": 40,
+      "strengths": ["Focus on AI safety (Constitutional AI)", "Strong backing from Amazon and Google", "Claude model performance"],
+      "weaknesses": ["Late to consumer market compared to OpenAI", "Resource intensive training"],
+      "description": "AI safety and research company focused on building reliable, interpretable, and steerable AI systems."
+    },
+    {
+      "id": "deepmind",
+      "name": "DeepMind",
+      "domain": "Intelligence",
+      "market_value": "N/A (Google subsidiary)",
+      "market_control": 75,
+      "strengths": ["Integration with Google ecosystem", "Fundamental research breakthroughs (AlphaFold, AlphaGo)", "Massive compute resources"],
+      "weaknesses": ["Internal bureaucracy", "Focus often split between research and product"],
+      "description": "Google's premier AI research division, responsible for many of the field's most significant breakthroughs."
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral",
+      "domain": "Intelligence",
+      "market_value": "2B",
+      "market_control": 20,
+      "strengths": ["Efficiency of models", "Strong European presence", "Open-weight strategy"],
+      "weaknesses": ["Smaller capital base compared to US giants", "Limited ecosystem integration"],
+      "description": "European champion of open-weight models, focusing on high performance with lower parameter counts."
+    },
+    {
+      "id": "aws",
+      "name": "AWS",
+      "domain": "Infrastructure",
+      "market_value": "1.2T",
+      "market_control": 92,
+      "strengths": ["Massive market share", "Broadest service portfolio", "Deep enterprise integration"],
+      "weaknesses": ["Complexity of services", "High egress costs", "Perceived as a competitor by some retail/media partners"],
+      "description": "The backbone of the modern internet and the largest cloud provider globally."
+    },
+    {
+      "id": "azure",
+      "name": "Azure",
+      "domain": "Infrastructure",
+      "market_value": "900B",
+      "market_control": 88,
+      "strengths": ["Microsoft 365 integration", "Strong enterprise relationships", "Early lead in AI cloud services via OpenAI"],
+      "weaknesses": ["Legacy software baggage", "Reliability concerns in some regions"],
+      "description": "Enterprise-grade cloud solutions deeply integrated with the Microsoft software stack."
+    },
+    {
+      "id": "gcp",
+      "name": "GCP",
+      "domain": "Infrastructure",
+      "market_value": "500B",
+      "market_control": 65,
+      "strengths": ["Data and analytics leadership", "Kubernetes originators", "Strong AI/ML specialized hardware (TPUs)"],
+      "weaknesses": ["Third place in market share", "History of deprecating products"],
+      "description": "Data-centric cloud infrastructure leveraging Google's internal engineering excellence."
+    },
+    {
+      "id": "nvidia",
+      "name": "Nvidia",
+      "domain": "Compute",
+      "market_value": "2.1T",
+      "market_control": 95,
+      "strengths": ["CUDA software moat", "Dominance in AI training hardware", "Supply chain control"],
+      "weaknesses": ["Geopolitical risks (China export bans)", "High valuation expectations", "Competition from custom silicon (TPUs, Inferentia)"],
+      "description": "The forge of the AI revolution, providing the GPUs that power almost all modern AI training."
+    },
+    {
+      "id": "tsmc",
+      "name": "TSMC",
+      "domain": "Foundry",
+      "market_value": "600B",
+      "market_control": 98,
+      "strengths": ["Process node leadership (3nm, 2nm)", "Massive scale", "Trusted partner for all major chip designers"],
+      "weaknesses": ["Geopolitical risk (Taiwan location)", "High capital expenditure requirements"],
+      "description": "The world's most advanced silicon foundry, manufacturing chips for Apple, Nvidia, and AMD."
+    }
+  ]
+}

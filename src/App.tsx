@@ -9,8 +9,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Zap, Shield, Cpu, Cloud, Sparkles, Activity, 
   Layers, Globe as GlobeIcon, Info, X, Terminal,
-  Database, Network, Server, Radio, Box, Play, Pause
+  Database, Network, Server, Radio, Box, Play, Pause,
+  Target
 } from 'lucide-react';
+import { SurvivalAnalysis } from './components/SurvivalAnalysis';
 
 // --- Data Definitions ---
 
@@ -185,6 +187,16 @@ export default function App() {
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [showInfo, setShowInfo] = useState(true);
   const [isAutoRotate, setIsAutoRotate] = useState(true);
+  const [showSurvivalEngine, setShowSurvivalEngine] = useState(false);
+  const [hubs, setHubs] = useState(TECH_HUBS);
+
+  const handleCompanyCreated = (company: any) => {
+    setHubs(prev => [...prev, company]);
+    // Fly to the new company
+    if (globeRef.current) {
+      globeRef.current.pointOfView({ lat: company.lat, lng: company.lng, altitude: 1.5 }, 2000);
+    }
+  };
 
   // Custom globe texture placeholder (dark grid)
   const globeImageUrl = "https://unpkg.com/three-globe/example/img/earth-night.jpg";
@@ -235,7 +247,7 @@ export default function App() {
           onLabelClick={setSelectedNode}
 
           // Points (Tech Hubs)
-          pointsData={TECH_HUBS}
+          pointsData={hubs}
           pointLat={d => (d as any).lat}
           pointLng={d => (d as any).lng}
           pointColor={d => (d as any).color}
@@ -245,7 +257,7 @@ export default function App() {
           onPointClick={setSelectedNode}
 
           // HTML Elements (Company Markers)
-          htmlElementsData={TECH_HUBS}
+          htmlElementsData={hubs}
           htmlElement={(d: any) => {
             const el = document.createElement('div');
             el.innerHTML = `
@@ -304,6 +316,16 @@ export default function App() {
         />
       </div>
 
+      {/* Survival Engine Overlay */}
+      <AnimatePresence>
+        {showSurvivalEngine && (
+          <SurvivalAnalysis 
+            onClose={() => setShowSurvivalEngine(false)} 
+            onCompanyCreated={handleCompanyCreated}
+          />
+        )}
+      </AnimatePresence>
+
       {/* UI Overlays */}
       <div className="absolute inset-0 pointer-events-none z-10">
         {/* Header */}
@@ -321,6 +343,14 @@ export default function App() {
           </div>
 
           <div className="flex gap-4">
+            <button 
+              onClick={() => setShowSurvivalEngine(true)}
+              className="px-6 py-4 rounded-full bg-purple-600/20 border border-purple-500/50 text-purple-400 hover:bg-purple-600/30 transition-all shadow-xl flex items-center gap-3 group"
+              title="Survival Engine"
+            >
+              <Target size={20} className="group-hover:rotate-12 transition-transform" />
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] font-bold">Initiate Survival Engine</span>
+            </button>
             <button 
               onClick={() => setIsAutoRotate(!isAutoRotate)}
               className={`p-4 rounded-full border transition-all shadow-xl flex items-center justify-center ${
