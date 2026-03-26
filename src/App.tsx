@@ -11,7 +11,10 @@ import { FounderPortal } from './components/FounderPortal';
 import { CorporateBeing } from './components/CorporateBeing';
 import { EpochHeader } from './components/EpochHeader';
 import { getEpochContext } from './lib/gemini';
-import { Globe, Shield, Zap, Info, AlertTriangle, X, TrendingUp, History, Key } from 'lucide-react';
+import { 
+  Globe, Shield, Zap, Info, AlertTriangle, X, TrendingUp, History, Key,
+  Sparkles, Cloud, Cpu, Share2, Smartphone, Rocket
+} from 'lucide-react';
 
 declare global {
   interface Window {
@@ -23,12 +26,54 @@ declare global {
 }
 
 const CORPORATE_DOMAINS: Domain[] = [
-  { id: 'gen-ai', name: 'Generative AI', x: 5, y: 5, width: 30, height: 30, color: 'rgba(168, 85, 247, 0.1)' },
-  { id: 'cloud', name: 'Cloud Infrastructure', x: 40, y: 5, width: 55, height: 25, color: 'rgba(59, 130, 246, 0.1)' },
-  { id: 'semis', name: 'Semiconductors', x: 5, y: 40, width: 30, height: 30, color: 'rgba(234, 179, 8, 0.1)' },
-  { id: 'defense', name: 'Defense & Aerospace', x: 40, y: 35, width: 55, height: 40, color: 'rgba(239, 68, 68, 0.1)' },
-  { id: 'social', name: 'Social Media', x: 5, y: 75, width: 30, height: 20, color: 'rgba(236, 72, 153, 0.1)' },
-  { id: 'consumer', name: 'Consumer Electronics', x: 40, y: 80, width: 55, height: 15, color: 'rgba(34, 197, 94, 0.1)' },
+  { 
+    id: 'gen-ai', 
+    name: 'Generative AI', 
+    x: 5, y: 5, width: 30, height: 30, 
+    color: 'rgba(168, 85, 247, 0.1)',
+    imageUrl: 'https://loremflickr.com/800/600/artificialintelligence,neural',
+    icon: 'Sparkles'
+  },
+  { 
+    id: 'cloud', 
+    name: 'Cloud Infrastructure', 
+    x: 40, y: 5, width: 55, height: 25, 
+    color: 'rgba(59, 130, 246, 0.1)',
+    imageUrl: 'https://loremflickr.com/800/600/datacenter,server',
+    icon: 'Cloud'
+  },
+  { 
+    id: 'semis', 
+    name: 'Semiconductors', 
+    x: 5, y: 40, width: 30, height: 30, 
+    color: 'rgba(234, 179, 8, 0.1)',
+    imageUrl: 'https://loremflickr.com/800/600/microchip,circuit',
+    icon: 'Cpu'
+  },
+  { 
+    id: 'defense', 
+    name: 'Defense & Aerospace', 
+    x: 40, y: 35, width: 55, height: 40, 
+    color: 'rgba(239, 68, 68, 0.1)',
+    imageUrl: 'https://loremflickr.com/800/600/satellite,spacecraft',
+    icon: 'Rocket'
+  },
+  { 
+    id: 'social', 
+    name: 'Social Media', 
+    x: 5, y: 75, width: 30, height: 20, 
+    color: 'rgba(236, 72, 153, 0.1)',
+    imageUrl: 'https://loremflickr.com/800/600/socialnetwork,digital',
+    icon: 'Share2'
+  },
+  { 
+    id: 'consumer', 
+    name: 'Consumer Electronics', 
+    x: 40, y: 80, width: 55, height: 15, 
+    color: 'rgba(34, 197, 94, 0.1)',
+    imageUrl: 'https://loremflickr.com/800/600/smartphone,gadget',
+    icon: 'Smartphone'
+  },
 ];
 
 const EPOCH_ENTITIES: Record<Epoch, Entity[]> = {
@@ -47,15 +92,15 @@ const EPOCH_ENTITIES: Record<Epoch, Entity[]> = {
     { id: 'ge', name: 'General Electric', leader: 'Thomas Edison', value: 450, oxygen: 100, power: 75, control: 70, lineage: [], description: 'The Power Layer.', isUser: false, status: 'Alive', position: { x: 80, y: 80 }, type: 'Machine' },
   ],
   Corporate: [
-    { id: 'msft', name: 'Microsoft', leader: 'Satya Nadella', value: 420.55, oxygen: 100, power: 80, control: 90, lineage: [], description: 'The OS Layer', isUser: false, status: 'Alive', position: { x: 55, y: 15 }, type: 'Incorporated', domains: ['Generative AI', 'Cloud Infrastructure'] },
-    { id: 'goog', name: 'Google', leader: 'Sundar Pichai', value: 150.22, oxygen: 100, power: 85, control: 85, lineage: [], description: 'The Knowledge Layer', isUser: false, status: 'Alive', position: { x: 20, y: 15 }, type: 'Incorporated', domains: ['Generative AI', 'Cloud Infrastructure', 'Social Media'] },
-    { id: 'meta', name: 'Meta', leader: 'Mark Zuckerberg', value: 510.12, oxygen: 100, power: 75, control: 70, lineage: [], description: 'The Social Layer', isUser: false, status: 'Alive', position: { x: 20, y: 85 }, type: 'Incorporated', domains: ['Generative AI', 'Social Media'] },
-    { id: 'aapl', name: 'Apple', leader: 'Tim Cook', value: 185.90, oxygen: 100, power: 90, control: 95, lineage: [], description: 'The Hardware Layer', isUser: false, status: 'Alive', position: { x: 70, y: 85 }, type: 'Incorporated', domains: ['Consumer Electronics'] },
-    { id: 'anth', name: 'Anthropic', leader: 'Dario Amodei', value: 85.00, oxygen: 100, power: 40, control: 50, lineage: ['goog'], description: 'The Safety Layer', isUser: false, status: 'Alive', position: { x: 15, y: 25 }, type: 'Incorporated', domains: ['Generative AI'] },
-    { id: 'nvda', name: 'NVIDIA', leader: 'Jensen Huang', value: 900.00, oxygen: 100, power: 95, control: 90, lineage: [], description: 'The Compute Layer', isUser: false, status: 'Alive', position: { x: 20, y: 55 }, type: 'Incorporated', domains: ['Semiconductors', 'Generative AI'] },
-    { id: 'intl', name: 'Intel', leader: 'Pat Gelsinger', value: 45.00, oxygen: 100, power: 60, control: 50, lineage: [], description: 'The Legacy Layer', isUser: false, status: 'Alive', position: { x: 10, y: 55 }, type: 'Incorporated', domains: ['Semiconductors'] },
-    { id: 'pltr', name: 'Palantir', leader: 'Alex Karp', value: 35.00, oxygen: 100, power: 50, control: 60, lineage: [], description: 'The Defense Layer', isUser: false, status: 'Alive', position: { x: 60, y: 50 }, type: 'Incorporated', domains: ['Defense & Aerospace', 'Generative AI'] },
-    { id: 'spcx', name: 'SpaceX', leader: 'Elon Musk', value: 180.00, oxygen: 100, power: 85, control: 80, lineage: [], description: 'The Frontier Layer', isUser: false, status: 'Alive', position: { x: 80, y: 50 }, type: 'Incorporated', domains: ['Defense & Aerospace'] },
+    { id: 'msft', name: 'Microsoft', leader: 'Satya Nadella', value: 420.55, oxygen: 100, power: 80, control: 90, lineage: [], description: 'The OS Layer', isUser: false, status: 'Alive', position: { x: 55, y: 15 }, type: 'Incorporated', domains: ['Generative AI', 'Cloud Infrastructure'], logoUrl: 'https://logo.clearbit.com/microsoft.com' },
+    { id: 'goog', name: 'Google', leader: 'Sundar Pichai', value: 150.22, oxygen: 100, power: 85, control: 85, lineage: [], description: 'The Knowledge Layer', isUser: false, status: 'Alive', position: { x: 20, y: 15 }, type: 'Incorporated', domains: ['Generative AI', 'Cloud Infrastructure', 'Social Media'], logoUrl: 'https://logo.clearbit.com/google.com' },
+    { id: 'meta', name: 'Meta', leader: 'Mark Zuckerberg', value: 510.12, oxygen: 100, power: 75, control: 70, lineage: [], description: 'The Social Layer', isUser: false, status: 'Alive', position: { x: 20, y: 85 }, type: 'Incorporated', domains: ['Generative AI', 'Social Media'], logoUrl: 'https://logo.clearbit.com/meta.com' },
+    { id: 'aapl', name: 'Apple', leader: 'Tim Cook', value: 185.90, oxygen: 100, power: 90, control: 95, lineage: [], description: 'The Hardware Layer', isUser: false, status: 'Alive', position: { x: 70, y: 85 }, type: 'Incorporated', domains: ['Consumer Electronics'], logoUrl: 'https://logo.clearbit.com/apple.com' },
+    { id: 'anth', name: 'Anthropic', leader: 'Dario Amodei', value: 85.00, oxygen: 100, power: 40, control: 50, lineage: ['goog'], description: 'The Safety Layer', isUser: false, status: 'Alive', position: { x: 15, y: 25 }, type: 'Incorporated', domains: ['Generative AI'], logoUrl: 'https://logo.clearbit.com/anthropic.com' },
+    { id: 'nvda', name: 'NVIDIA', leader: 'Jensen Huang', value: 900.00, oxygen: 100, power: 95, control: 90, lineage: [], description: 'The Compute Layer', isUser: false, status: 'Alive', position: { x: 20, y: 55 }, type: 'Incorporated', domains: ['Semiconductors', 'Generative AI'], logoUrl: 'https://logo.clearbit.com/nvidia.com' },
+    { id: 'intl', name: 'Intel', leader: 'Pat Gelsinger', value: 45.00, oxygen: 100, power: 60, control: 50, lineage: [], description: 'The Legacy Layer', isUser: false, status: 'Alive', position: { x: 10, y: 55 }, type: 'Incorporated', domains: ['Semiconductors'], logoUrl: 'https://logo.clearbit.com/intel.com' },
+    { id: 'pltr', name: 'Palantir', leader: 'Alex Karp', value: 35.00, oxygen: 100, power: 50, control: 60, lineage: [], description: 'The Defense Layer', isUser: false, status: 'Alive', position: { x: 60, y: 50 }, type: 'Incorporated', domains: ['Defense & Aerospace', 'Generative AI'], logoUrl: 'https://logo.clearbit.com/palantir.com' },
+    { id: 'spcx', name: 'SpaceX', leader: 'Elon Musk', value: 180.00, oxygen: 100, power: 85, control: 80, lineage: [], description: 'The Frontier Layer', isUser: false, status: 'Alive', position: { x: 80, y: 50 }, type: 'Incorporated', domains: ['Defense & Aerospace'], logoUrl: 'https://logo.clearbit.com/spacex.com' },
   ],
   AI: [
     { id: 'openai', name: 'OpenAI', leader: 'Sam Altman', value: 1000, oxygen: 100, power: 95, control: 90, lineage: ['msft'], description: 'The Intelligence Layer', isUser: false, status: 'Alive', position: { x: 50, y: 50 }, type: 'Synthetic' },
@@ -71,6 +116,23 @@ export default function App() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [showInfo, setShowInfo] = useState(true);
   const [hasApiKey, setHasApiKey] = useState(false);
+  
+  // Canvas State
+  const [scale, setScale] = useState(1);
+  const [canvasPos, setCanvasPos] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? 0.9 : 1.1;
+        setScale(prev => Math.min(Math.max(prev * delta, 0.5), 3));
+      }
+    };
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, []);
 
   useEffect(() => {
     setEntities(EPOCH_ENTITIES[currentEpoch]);
@@ -184,8 +246,8 @@ export default function App() {
 
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-[#050505] transition-colors duration-1000">
-      {/* Background Atmosphere */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      {/* Fixed Background Atmosphere */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <motion.div 
           animate={{ backgroundColor: styles.aura1.split(' ')[0].replace('bg-', '') }}
           className={`absolute top-[-10%] left-[-10%] w-[40%] h-[40%] ${styles.aura1} blur-[120px] rounded-full transition-all duration-1000`} 
@@ -194,98 +256,158 @@ export default function App() {
           animate={{ backgroundColor: styles.aura2.split(' ')[0].replace('bg-', '') }}
           className={`absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] ${styles.aura2} blur-[120px] rounded-full transition-all duration-1000`} 
         />
-        
-        {/* Grid System */}
         <div className={`absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] ${styles.gridSize} ${styles.gridOpacity} transition-all duration-1000`} />
-        <div className={`absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:200px_200px] ${styles.gridOpacity} transition-all duration-1000`} />
-        
-        {currentEpoch === 'Industrial' && (
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-white/5 to-transparent blur-sm" />
-            <div className="absolute top-0 right-1/4 w-1 h-full bg-gradient-to-b from-white/5 to-transparent blur-sm" />
-          </div>
-        )}
-
-        {currentEpoch === 'Corporate' && (
-          <div className="absolute inset-0 pointer-events-none">
-            {CORPORATE_DOMAINS.map(domain => {
-              const reigningEntities = entities.filter(e => e.domains?.includes(domain.name));
-              const isHighlighted = hoveredEntityId && entities.find(e => e.id === hoveredEntityId)?.domains?.includes(domain.name);
-              const isSelected = selectedEntity && selectedEntity.domains?.includes(domain.name);
-
-              return (
-                <motion.div
-                  key={domain.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ 
-                    opacity: 1,
-                    borderColor: (isHighlighted || isSelected) ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.05)',
-                    backgroundColor: (isHighlighted || isSelected) ? domain.color.replace('0.1', '0.2') : domain.color
-                  }}
-                  className="absolute border rounded-2xl flex flex-col items-center justify-start p-4 transition-colors duration-500"
-                  style={{
-                    left: `${domain.x}%`,
-                    top: `${domain.y}%`,
-                    width: `${domain.width}%`,
-                    height: `${domain.height}%`,
-                  }}
-                >
-                  <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-white/20">
-                    Territory
-                  </div>
-                  <div className="text-lg font-serif italic text-white/40 mt-1">
-                    {domain.name}
-                  </div>
-                  
-                  {(isHighlighted || isSelected) && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-auto flex flex-wrap justify-center gap-1"
-                    >
-                      {reigningEntities.map(re => (
-                        <div key={re.id} className={`w-1.5 h-1.5 rounded-full ${re.id === (hoveredEntityId || selectedEntity?.id) ? 'bg-white' : 'bg-white/20'}`} />
-                      ))}
-                    </motion.div>
-                  )}
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
-
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 brightness-50 contrast-150" />
       </div>
 
-      {/* The World Stage */}
-      <main className="absolute inset-0 overflow-hidden">
-        <EpochHeader 
-          currentEpoch={currentEpoch}
-          epochDescription={epochDescription}
-          hasApiKey={hasApiKey}
-          onSelectKey={handleSelectKey}
-          onToggleInfo={() => setShowInfo(!showInfo)}
-          styles={styles}
-          isVisible={isHeaderVisible}
-          onToggleVisibility={() => setIsHeaderVisible(!isHeaderVisible)}
-        />
+      {/* Zoomable/Pannable World Canvas */}
+      <div 
+        className={`fixed inset-0 overflow-hidden z-10 transition-cursor duration-200 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+        onMouseDown={() => setIsDragging(true)}
+        onMouseUp={() => setIsDragging(false)}
+      >
+        <motion.div
+          drag
+          dragMomentum={false}
+          onDrag={(e, info) => setCanvasPos(prev => ({ x: prev.x + info.delta.x, y: prev.y + info.delta.y }))}
+          animate={{ 
+            scale,
+            x: canvasPos.x,
+            y: canvasPos.y
+          }}
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          className="relative w-[200vw] h-[200vh] -left-[50vw] -top-[50vh]"
+        >
+          {/* Territory Grid (Corporate Only) */}
+          {currentEpoch === 'Corporate' && (
+            <div className="absolute inset-0 z-0">
+              {CORPORATE_DOMAINS.map(domain => {
+                const reigningEntities = entities.filter(e => e.domains?.includes(domain.name));
+                const isHighlighted = hoveredEntityId && entities.find(e => e.id === hoveredEntityId)?.domains?.includes(domain.name);
+                const isSelected = selectedEntity && selectedEntity.domains?.includes(domain.name);
 
-        {/* The Walking Beings */}
-        <div className="absolute inset-0 z-10">
-          {entities.map(entity => (
-            <CorporateBeing 
-              key={entity.id} 
-              entity={entity} 
-              epoch={currentEpoch} 
-              onClick={setSelectedEntity} 
-              onMouseEnter={() => setHoveredEntityId(entity.id)}
-              onMouseLeave={() => setHoveredEntityId(null)}
-            />
-          ))}
+                const DomainIcon = {
+                  Sparkles, Cloud, Cpu, Rocket, Share2, Smartphone
+                }[domain.icon || 'Globe'] || Globe;
+
+                return (
+                  <motion.div
+                    key={domain.id}
+                    initial={{ opacity: 0 }}
+                    animate={{ 
+                      opacity: 1,
+                      borderColor: (isHighlighted || isSelected) ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.05)',
+                      backgroundColor: (isHighlighted || isSelected) ? domain.color.replace('0.1', '0.25') : domain.color
+                    }}
+                    className="absolute border rounded-3xl overflow-hidden group transition-all duration-700"
+                    style={{
+                      left: `${domain.x}%`,
+                      top: `${domain.y}%`,
+                      width: `${domain.width}%`,
+                      height: `${domain.height}%`,
+                    }}
+                  >
+                    {/* Background Imagery */}
+                    <div className="absolute inset-0 z-0">
+                      <img 
+                        src={domain.imageUrl} 
+                        alt={domain.name}
+                        referrerPolicy="no-referrer"
+                        className={`w-full h-full object-cover transition-all duration-1000 ${
+                          (isHighlighted || isSelected) ? 'scale-110 opacity-60 blur-0' : 'scale-100 opacity-20 blur-[3px]'
+                        }`}
+                      />
+                      <div className={`absolute inset-0 bg-gradient-to-br transition-all duration-700 ${
+                        (isHighlighted || isSelected) 
+                          ? 'from-black/40 via-transparent to-black/60' 
+                          : 'from-black/80 via-black/40 to-black/80'
+                      }`} />
+                    </div>
+
+                    <div className="relative z-10 p-6 h-full flex flex-col items-start">
+                      <div className={`p-2.5 rounded-2xl bg-white/5 border border-white/10 mb-4 transition-all duration-500 shadow-xl ${
+                        (isHighlighted || isSelected) ? 'scale-110 border-white/40 bg-white/20 shadow-white/5' : ''
+                      }`}>
+                        <DomainIcon size={20} className={isHighlighted || isSelected ? 'text-white' : 'text-white/40'} />
+                      </div>
+                      
+                      <div className={`text-2xl font-serif italic tracking-tight leading-none transition-all duration-500 ${
+                        (isHighlighted || isSelected) ? 'text-white translate-x-1 drop-shadow-lg' : 'text-white/30'
+                      }`}>
+                        {domain.name}
+                      </div>
+                      
+                      {(isHighlighted || isSelected) && (
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="mt-auto w-full"
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="text-[9px] font-mono uppercase tracking-[0.2em] text-white/50">
+                              Dominion Status
+                            </div>
+                            <div className="text-[9px] font-mono text-green-400 uppercase tracking-widest">
+                              Active
+                            </div>
+                          </div>
+                          <div className="flex gap-1.5 items-center h-1">
+                            {reigningEntities.map(re => (
+                              <motion.div 
+                                key={re.id} 
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className={`h-full flex-1 rounded-full transition-all ${
+                                  re.id === (hoveredEntityId || selectedEntity?.id) 
+                                    ? 'bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]' 
+                                    : 'bg-white/20'
+                                }`} 
+                              />
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 brightness-50 contrast-150 pointer-events-none" />
+
+          {/* The Walking Beings */}
+          <div className="absolute inset-0 z-10">
+            {entities.map(entity => (
+              <CorporateBeing 
+                key={entity.id} 
+                entity={entity} 
+                epoch={currentEpoch} 
+                onClick={setSelectedEntity} 
+                onMouseEnter={() => setHoveredEntityId(entity.id)}
+                onMouseLeave={() => setHoveredEntityId(null)}
+              />
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Fixed UI Layer */}
+      <main className="absolute inset-0 overflow-hidden pointer-events-none z-20">
+        <div className="pointer-events-auto">
+          <EpochHeader 
+            currentEpoch={currentEpoch}
+            epochDescription={epochDescription}
+            hasApiKey={hasApiKey}
+            onSelectKey={handleSelectKey}
+            onToggleInfo={() => setShowInfo(!showInfo)}
+            styles={styles}
+            isVisible={isHeaderVisible}
+            onToggleVisibility={() => setIsHeaderVisible(!isHeaderVisible)}
+          />
         </div>
 
         {/* Stats Overlay */}
-        <div className="absolute bottom-8 left-8 flex gap-8 z-20">
+        <div className="absolute bottom-8 left-8 flex gap-8 z-20 pointer-events-auto">
           <div className="space-y-1">
             <div className="text-[10px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-2">
               <Shield size={10} /> Stability

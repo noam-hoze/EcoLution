@@ -41,6 +41,16 @@ export const CorporateBeing: React.FC<CorporateBeingProps> = ({
   }, []);
 
   const getIcon = () => {
+    if (entity.logoUrl) {
+      return (
+        <img 
+          src={entity.logoUrl} 
+          alt={entity.name} 
+          referrerPolicy="no-referrer"
+          className="w-8 h-8 object-contain rounded-lg group-hover:scale-110 transition-transform duration-500"
+        />
+      );
+    }
     switch (entity.type) {
       case 'Human': return <Users size={24} />;
       case 'Machine': return <Settings size={24} className="animate-spin-slow" />;
@@ -78,15 +88,15 @@ export const CorporateBeing: React.FC<CorporateBeingProps> = ({
       <div className="relative flex flex-col items-center">
         {/* Silhouette */}
         <div className="relative">
-          <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all group-hover:scale-110 ${
+          <div className={`w-14 h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
             entity.isUser 
               ? 'bg-orange-500/20 border-orange-500 text-orange-500 shadow-[0_0_30px_rgba(249,115,22,0.5)]' 
-              : 'bg-white/10 border-white/20 text-white/80 group-hover:border-white/40'
+              : 'bg-white/5 border-white/10 text-white/80 group-hover:border-white/40 backdrop-blur-sm'
           }`}>
             {getIcon()}
           </div>
           {/* Base Shadow */}
-          <div className={`absolute -bottom-1 left-1/2 -translate-x-1/2 w-4 h-2 rounded-full blur-[2px] ${entity.isUser ? 'bg-orange-500/40' : 'bg-white/20'}`} />
+          <div className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-2 rounded-full blur-[4px] transition-all duration-500 group-hover:w-8 group-hover:blur-[6px] ${entity.isUser ? 'bg-orange-500/40' : 'bg-white/10'}`} />
         </div>
         
         {/* Floating Label */}

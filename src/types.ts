@@ -24,6 +24,7 @@ export interface Entity {
   position: { x: number; y: number }; // For walking in the world
   type: 'Human' | 'Machine' | 'Incorporated' | 'Synthetic';
   domains?: string[];
+  logoUrl?: string;
 }
 
 export interface Domain {
@@ -34,6 +35,8 @@ export interface Domain {
   width: number;
   height: number;
   color: string;
+  imageUrl?: string;
+  icon?: string;
 }
 
 export interface SimulationResult {
