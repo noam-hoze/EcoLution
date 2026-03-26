@@ -27,7 +27,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
   const [analysis, setAnalysis] = useState<CompanyAnalysis | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const domains = ['Intelligence', 'Infrastructure', 'Compute', 'Foundry', 'Lithography'];
+  const SURVIVAL_THRESHOLD = 60;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,25 +44,46 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
       );
       setAnalysis(result);
       setStep('result');
-      
-      if (onCompanyCreated) {
-        onCompanyCreated({
-          id: formData.name.toLowerCase().replace(/\s+/g, '-'),
-          name: formData.name,
-          lat: result.coordinates.lat,
-          lng: result.coordinates.lng,
-          color: result.verdict === 'SURVIVE' ? '#22c55e' : result.verdict === 'ACQUIRED' ? '#f87171' : '#ef4444',
-          type: result.inferredDomain,
-          description: result.prediction,
-          logo: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name)}&background=random&color=fff`,
-          isUserCompany: true,
-          analysis: result
-        });
-      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
       setStep('input');
     }
+  };
+
+  const handleDeploy = () => {
+    if (analysis && onCompanyCreated) {
+      onCompanyCreated({
+        id: formData.name.toLowerCase().replace(/\s+/g, '-'),
+        name: formData.name,
+        lat: analysis.coordinates.lat,
+        lng: analysis.coordinates.lng,
+        color: analysis.survivalChance >= SURVIVAL_THRESHOLD ? '#22c55e' : '#ef4444',
+        type: analysis.inferredDomain,
+        description: analysis.prediction,
+        value: formData.funding, // Use funding as initial valuation
+        logo: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name)}&background=random&color=fff`,
+        isUserCompany: true,
+        analysis: analysis
+      });
+      onClose();
+    }
+  };
+
+  const getTerritoryName = (id: string) => {
+    const names: Record<string, string> = {
+      llm: 'LLM Highlands',
+      cloud: 'Cloud Tundra',
+      semis: 'The Silicon Spires',
+      cyber: 'The Citadel of Crypt',
+      fintech: 'FinTech Nexus',
+      robotics: 'The Automaton Frontier',
+      biotech: 'The Genomic Archipelago',
+      energy: 'The Solar Plains',
+      quantum: 'The Qubit Reef',
+      spatial: 'The Synthetic Valleys',
+      space: 'The Celestial Harbor'
+    };
+    return names[id] || 'Unknown Territory';
   };
 
   return (
@@ -81,13 +102,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
         className="relative w-full max-w-xl bg-zinc-950/80 backdrop-blur-2xl border border-white/10 rounded-[3rem] overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
       >
         <div className="p-12 overflow-y-auto no-scrollbar">
-          <div className="flex justify-between items-center mb-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-[1px] bg-red-500/50" />
-              <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-red-400 font-bold">
-                Survival Engine v1.1
-              </div>
-            </div>
+          <div className="flex justify-end mb-10">
             <button 
               onClick={onClose}
               className="p-2 rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors"
@@ -110,7 +125,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                     Let me <span className="text-red-500">in!</span>
                   </h2>
                   <p className="text-sm text-white/40 font-mono uppercase tracking-widest">
-                    Define your company. Domain and territory will be inferred by AI.
+                    Define your company. AI will assess your survival probability and infer your global territory.
                   </p>
                 </div>
 
@@ -219,7 +234,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                     type="submit"
                     className="w-full py-6 rounded-2xl bg-red-600 hover:bg-red-500 text-white font-serif italic text-xl transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] flex items-center justify-center gap-3 group"
                   >
-                    Evolve
+                    Yalla/Vamos/Let's go!
                     <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                 </form>
@@ -246,6 +261,7 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                     <p className="text-xs text-white/40 font-mono uppercase tracking-widest animate-pulse">Analyzing Description...</p>
                     <p className="text-xs text-white/40 font-mono uppercase tracking-widest animate-pulse delay-75">Determining Industry Domain...</p>
                     <p className="text-xs text-white/40 font-mono uppercase tracking-widest animate-pulse delay-150">Locating Global Stack Territory...</p>
+                    <p className="text-xs text-white/40 font-mono uppercase tracking-widest animate-pulse delay-200">Calculating Survival Probability...</p>
                   </div>
                 </div>
               </motion.div>
@@ -264,38 +280,40 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                       <h2 className="text-5xl font-serif italic text-white tracking-tighter">
                         {formData.name}
                       </h2>
-                      <div className="flex gap-2">
+                      <div className="flex flex-wrap gap-2">
                         <span className="text-[9px] font-mono uppercase tracking-widest text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">
                           {analysis.inferredDomain}
                         </span>
                         <span className="text-[9px] font-mono uppercase tracking-widest text-red-400 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">
-                          Territory: {
-                            analysis.suggestedTerritoryId === 'llm' ? 'LLM Highlands' : 
-                            analysis.suggestedTerritoryId === 'cloud' ? 'Cloud Tundra' : 
-                            analysis.suggestedTerritoryId === 'semis' ? 'Semiconductors' :
-                            analysis.suggestedTerritoryId === 'cyber' ? 'Cybersecurity' :
-                            'FinTech Nexus'
-                          }
+                          Territory: {getTerritoryName(analysis.suggestedTerritoryId)}
                         </span>
                       </div>
                     </div>
-                    <div className={`px-4 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest border ${
-                      analysis.verdict === 'SURVIVE' ? 'bg-red-500/10 border-red-500/50 text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.2)]' :
-                      analysis.verdict === 'ACQUIRED' ? 'bg-red-400/10 border-red-400/50 text-red-300' :
-                      'bg-red-900/20 border-red-900/50 text-red-500'
-                    }`}>
-                      {analysis.verdict}
-                    </div>
+                    <motion.div 
+                      animate={analysis.survivalChance >= SURVIVAL_THRESHOLD ? {
+                        scale: [1, 1.05, 1],
+                        boxShadow: ["0 0 0px rgba(34,197,94,0)", "0 0 20px rgba(34,197,94,0.4)", "0 0 0px rgba(34,197,94,0)"]
+                      } : {}}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className={`px-4 py-1 rounded-full text-[10px] font-mono uppercase tracking-widest border ${
+                        analysis.survivalChance >= SURVIVAL_THRESHOLD ? 'bg-green-500/10 border-green-500/50 text-green-400' :
+                        'bg-red-900/20 border-red-900/50 text-red-500'
+                      }`}
+                    >
+                      {analysis.survivalChance >= SURVIVAL_THRESHOLD ? 'SUCCESS' : 'FAILURE'}
+                    </motion.div>
                   </div>
                   
                   <div className="p-8 rounded-3xl bg-white/5 border border-white/10 relative overflow-hidden group">
                     <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                      {analysis.survivalChance > 50 ? <TrendingUp size={80} /> : <TrendingDown size={80} />}
+                      {analysis.survivalChance >= SURVIVAL_THRESHOLD ? <TrendingUp size={80} className="text-green-500" /> : <TrendingDown size={80} className="text-red-500" />}
                     </div>
                     <div className="grid grid-cols-2 gap-8 relative z-10">
                       <div className="space-y-2">
                         <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">Survival Probability</div>
-                        <div className="text-7xl font-serif italic text-white">{analysis.survivalChance}%</div>
+                        <div className={`text-7xl font-serif italic ${analysis.survivalChance >= SURVIVAL_THRESHOLD ? 'text-green-400' : 'text-red-500'}`}>
+                          {analysis.survivalChance}%
+                        </div>
                       </div>
                       <div className="space-y-2 border-l border-white/10 pl-8">
                         <div className="text-[10px] font-mono uppercase tracking-widest text-white/30 flex items-center gap-2">
@@ -308,12 +326,25 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                 </div>
 
                 <div className="space-y-6">
-                  <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
-                    <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">Team Due Diligence</div>
-                    <p className="text-sm text-white/80 leading-relaxed italic">
-                      "{analysis.dueDiligence.assessment}"
-                    </p>
-                  </div>
+                  {analysis.survivalChance >= SURVIVAL_THRESHOLD ? (
+                    <div className="p-6 rounded-2xl bg-green-500/10 border border-green-500/30 space-y-3">
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-green-400 flex items-center gap-2">
+                        <CheckCircle2 size={12} /> Access Granted
+                      </div>
+                      <p className="text-sm text-white/80 leading-relaxed italic">
+                        Your entity has met the minimum survival threshold. You are cleared for deployment into the Global Stack.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="p-6 rounded-2xl bg-red-500/10 border border-red-500/30 space-y-3">
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-red-400 flex items-center gap-2">
+                        <AlertCircle size={12} /> Access Denied
+                      </div>
+                      <p className="text-sm text-white/80 leading-relaxed italic">
+                        Survival probability is below critical threshold. Deployment into the Global Stack is prohibited to prevent ecosystem pollution.
+                      </p>
+                    </div>
+                  )}
 
                   <div className="space-y-3">
                     <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">AI Prediction</div>
@@ -346,39 +377,34 @@ export const SurvivalAnalysis: React.FC<SurvivalAnalysisProps> = ({ onClose, onC
                       </ul>
                     </div>
                   </div>
-
-                  <div className="p-6 rounded-2xl bg-red-500/5 border border-red-500/20 space-y-3">
-                    <div className="text-[10px] font-mono uppercase tracking-widest text-red-400">Competitive Landscape</div>
-                    <p className="text-sm text-white/70 leading-relaxed">
-                      {analysis.competitiveLandscape}
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="p-6 rounded-2xl bg-red-500/5 border border-red-500/20 space-y-3">
-                      <div className="text-[10px] font-mono uppercase tracking-widest text-red-400 flex items-center gap-2">
-                        <AlertCircle size={12} /> Survival Gap: {analysis.gapAnalysis.gap}
-                      </div>
-                      <p className="text-sm text-white/70 leading-relaxed">
-                        {analysis.gapAnalysis.suggestion}
-                      </p>
-                    </div>
-
-                    <div className="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
-                      <div className="text-[10px] font-mono uppercase tracking-widest text-white/30">Suggested Strategy</div>
-                      <p className="text-sm text-white/70 leading-relaxed italic">
-                        {analysis.suggestedStrategy}
-                      </p>
-                    </div>
-                  </div>
                 </div>
 
-                <button 
-                  onClick={() => setStep('input')}
-                  className="w-full py-4 rounded-xl border border-white/10 text-white/40 hover:text-white hover:bg-white/5 transition-all text-xs font-mono uppercase tracking-widest"
-                >
-                  Analyze Another Entity
-                </button>
+                <div className="flex flex-col gap-4">
+                  {analysis.survivalChance >= SURVIVAL_THRESHOLD ? (
+                    <button 
+                      onClick={handleDeploy}
+                      className="w-full py-6 rounded-2xl bg-green-600 hover:bg-green-500 text-white font-serif italic text-xl transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] flex items-center justify-center gap-3 group"
+                    >
+                      Deploy to Global Stack
+                      <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => setStep('input')}
+                      className="w-full py-6 rounded-2xl bg-zinc-800 hover:bg-zinc-700 text-white font-serif italic text-xl transition-all flex items-center justify-center gap-3 group"
+                    >
+                      Recalibrate Entity
+                      <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  )}
+                  
+                  <button 
+                    onClick={onClose}
+                    className="w-full py-4 rounded-xl border border-white/10 text-white/40 hover:text-white hover:bg-white/5 transition-all text-xs font-mono uppercase tracking-widest"
+                  >
+                    Abort Analysis
+                  </button>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

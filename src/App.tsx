@@ -18,9 +18,11 @@ import { SurvivalAnalysis } from './components/SurvivalAnalysis';
 
 const parseValuation = (valStr: string): number => {
   if (!valStr || valStr === 'N/A') return 5; // Baseline for private/unknown
-  const num = parseFloat(valStr);
-  if (valStr.includes('T')) return num * 1000;
-  if (valStr.includes('B')) return num;
+  const cleanStr = valStr.replace('$', '').toUpperCase();
+  const num = parseFloat(cleanStr);
+  if (cleanStr.includes('T')) return num * 1000;
+  if (cleanStr.includes('B')) return num;
+  if (cleanStr.includes('M')) return num / 1000;
   return num;
 };
 
@@ -400,7 +402,7 @@ export default function App() {
                 <div class="relative flex items-center justify-center" style="width: ${size}px; height: ${size}px;">
                   <!-- Valuation Tag -->
                   <div class="absolute -top-2 -right-3 px-1.5 py-0.5 rounded-md bg-black/90 border border-green-500/30 text-[9px] font-mono text-green-400 z-10 backdrop-blur-md shadow-[0_0_10px_rgba(34,197,94,0.2)] font-bold">
-                    ${d.value === 'N/A' ? 'N/A' : '$' + d.value}
+                    ${d.value === 'N/A' ? 'N/A' : (d.value.toString().startsWith('$') ? d.value : '$' + d.value)}
                   </div>
                   <!-- Outer Glow Ring -->
                   <div class="absolute inset-0 rounded-full bg-white/10 blur-sm group-hover:bg-white/20 transition-all duration-300"></div>

@@ -14,7 +14,7 @@ export interface CompanyAnalysis {
   verdict: "SURVIVE" | "ACQUIRED" | "FAIL";
   suggestedStrategy: string;
   inferredDomain: string;
-  suggestedTerritoryId: "llm" | "cloud" | "semis" | "cyber" | "fintech";
+  suggestedTerritoryId: "llm" | "cloud" | "semis" | "cyber" | "fintech" | "robotics" | "biotech" | "energy" | "quantum" | "spatial" | "space";
   coordinates: { lat: number; lng: number };
   gapAnalysis: {
     gap: string;
@@ -43,19 +43,31 @@ export const analyzeCompanySurvival = async (
     ${JSON.stringify(companyDocs, null, 2)}
 
     Evaluation Criteria:
-    1. Domain Inference: Based on the description, identify which domain the company belongs to (e.g., Intelligence, Infrastructure, Compute, Foundry, Lithography, Security, Finance).
+    1. Domain Inference: Based on the description, identify which domain the company belongs to (e.g., Intelligence, Infrastructure, Compute, Foundry, Lithography, Security, Finance, Robotics, Biotech, Energy, Quantum, Spatial, Space).
     2. Territory Placement: Assign the company to one of the main territories:
        - "llm" (LLM Highlands): For Intelligence/AI software companies.
        - "cloud" (Cloud Tundra): For Infrastructure/Cloud/Storage companies.
-       - "semis" (Semiconductor Archipelago): For Compute/Hardware/Foundry companies.
-       - "cyber" (Cybersecurity Bastion): For Security/Defense/Threat Intelligence companies.
+       - "semis" (The Silicon Spires): For Compute/Hardware/Foundry companies.
+       - "cyber" (The Citadel of Crypt): For Security/Defense/Threat Intelligence companies.
        - "fintech" (FinTech Nexus): For Finance/Payments/Crypto companies.
+       - "robotics" (The Automaton Frontier): For Humanoid/Autonomous systems.
+       - "biotech" (The Genomic Archipelago): For CRISPR/BCI/Longevity tech.
+       - "energy" (The Solar Plains): For SMR/Battery/Climate tech.
+       - "quantum" (The Qubit Reef): For Quantum computing/cryptography.
+       - "spatial" (The Synthetic Valleys): For AR/VR/Spatial Intelligence.
+       - "space" (The Celestial Harbor): For LEO/Lunar/Space exploration.
     3. Coordinates: Suggest a specific latitude and longitude within that territory's range for visual placement.
        - llm: lat 15 to 45, lng 30 to 60
        - cloud: lat -45 to -5, lng -55 to -15
        - semis: lat -25 to 15, lng 80 to 125
        - cyber: lat 50 to 75, lng -10 to 20
        - fintech: lat -10 to 20, lng -100 to -70
+       - robotics: lat 30 to 40, lng 130 to 140
+       - biotech: lat 5 to 15, lng 5 to 15
+       - energy: lat -25 to -15, lng 20 to 30
+       - quantum: lat 50 to 60, lng -115 to -105
+       - spatial: lat 32 to 42, lng -127 to -117
+       - space: lat -65 to -55, lng -65 to -55
     4. Competitive Threat: Which "Big Tech" titans are most likely to crush or acquire this company?
     5. Moat Analysis: Does the company have a defensible technical or market advantage?
     6. Gap Analysis: Identify the primary "Gap" between the current state and a >80% survival probability.
@@ -98,7 +110,7 @@ export const analyzeCompanySurvival = async (
             verdict: { type: Type.STRING, enum: ["SURVIVE", "ACQUIRED", "FAIL"] },
             suggestedStrategy: { type: Type.STRING, description: "What the company should do to increase survival odds" },
             inferredDomain: { type: Type.STRING, description: "The industry domain inferred from the description" },
-            suggestedTerritoryId: { type: Type.STRING, enum: ["llm", "cloud", "semis", "cyber", "fintech"] },
+            suggestedTerritoryId: { type: Type.STRING, enum: ["llm", "cloud", "semis", "cyber", "fintech", "robotics", "biotech", "energy", "quantum", "spatial", "space"] },
             coordinates: {
               type: Type.OBJECT,
               properties: {
