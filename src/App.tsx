@@ -16,6 +16,20 @@ import { SurvivalAnalysis } from './components/SurvivalAnalysis';
 
 // --- Data Definitions ---
 
+const parseValuation = (valStr: string): number => {
+  if (!valStr || valStr === 'N/A') return 5; // Baseline for private/unknown
+  const num = parseFloat(valStr);
+  if (valStr.includes('T')) return num * 1000;
+  if (valStr.includes('B')) return num;
+  return num;
+};
+
+const getScale = (value: string) => {
+  const numeric = parseValuation(value);
+  // Logarithmic scaling to handle the massive gap between 2B and 2T
+  return 0.8 + Math.log10(numeric + 1) * 0.5;
+};
+
 const CONTINENTS = [
   { 
     id: 'llm', 
@@ -368,7 +382,7 @@ export default function App() {
           pointLat={d => (d as any).lat}
           pointLng={d => (d as any).lng}
           pointColor={d => (d as any).color}
-          pointRadius={0.5}
+          pointRadius={d => getScale((d as any).value) * 0.3}
           pointsMerge={false}
           pointAltitude={0.02}
           onPointClick={setSelectedNode}
@@ -376,17 +390,24 @@ export default function App() {
           // HTML Elements (Company Markers)
           htmlElementsData={hubs}
           htmlElement={(d: any) => {
+            const scale = getScale(d.value);
+            const size = 32 * scale;
+            const logoSize = 24 * scale;
             const el = document.createElement('div');
             el.style.pointerEvents = 'auto'; // Ensure it captures clicks
             el.innerHTML = `
               <div class="group cursor-pointer flex flex-col items-center">
-                <div class="relative w-8 h-8 flex items-center justify-center">
+                <div class="relative flex items-center justify-center" style="width: ${size}px; height: ${size}px;">
+                  <!-- Valuation Tag -->
+                  <div class="absolute -top-2 -right-3 px-1.5 py-0.5 rounded-md bg-black/90 border border-green-500/30 text-[9px] font-mono text-green-400 z-10 backdrop-blur-md shadow-[0_0_10px_rgba(34,197,94,0.2)] font-bold">
+                    ${d.value === 'N/A' ? 'N/A' : '$' + d.value}
+                  </div>
                   <!-- Outer Glow Ring -->
                   <div class="absolute inset-0 rounded-full bg-white/10 blur-sm group-hover:bg-white/20 transition-all duration-300"></div>
                   <!-- Border Ring -->
                   <div class="absolute inset-0 rounded-full border border-white/20 group-hover:border-white/40 transition-all duration-300"></div>
                   <!-- Logo Container -->
-                  <div class="relative w-6 h-6 rounded-full overflow-hidden bg-black/50 border border-white/10 flex items-center justify-center p-1 backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
+                  <div class="relative rounded-full overflow-hidden bg-black/50 border border-white/10 flex items-center justify-center p-1 backdrop-blur-sm group-hover:scale-110 transition-transform duration-300" style="width: ${logoSize}px; height: ${logoSize}px;">
                     <img src="${d.logo}" alt="${d.name}" class="w-full h-full object-contain filter brightness-110 pointer-events-none" />
                   </div>
                 </div>
@@ -418,11 +439,11 @@ export default function App() {
           arcCurveResolution={64}
 
           // Rings (Active Hubs)
-          ringsData={TECH_HUBS}
+          ringsData={hubs}
           ringLat={d => (d as any).lat}
           ringLng={d => (d as any).lng}
           ringColor={d => (d as any).color}
-          ringMaxRadius={5}
+          ringMaxRadius={d => getScale((d as any).value) * 3}
           ringPropagationSpeed={2}
           ringRepeatPeriod={800}
 
